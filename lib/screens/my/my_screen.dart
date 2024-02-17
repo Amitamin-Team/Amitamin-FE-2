@@ -8,8 +8,15 @@ class MyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultLayout(
+      backgroundColor: CustomColor.extraLightGray,
       child: SafeArea(
-        child: Text("my_screen")
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text('마이페이지')
+            ],
+          ),
+        ),
       ),
     );
   }

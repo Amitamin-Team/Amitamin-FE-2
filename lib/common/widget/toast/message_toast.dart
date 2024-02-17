@@ -15,17 +15,6 @@ void messageToast(context, message) {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          width: 25,
-          height: 25,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              'assets/main/ic_logo.png',
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
         const SizedBox(
           width: 12.0,
         ),
