@@ -27,7 +27,9 @@ class LoginScreen extends ConsumerWidget {
                   width: 140,
                   height: 177,
                 ),
-                const SizedBox(height: 40,),
+                const SizedBox(
+                  height: 40,
+                ),
                 OutlinedInput(
                   onChanged: (String email) {},
                   hintText: '이메일을 입력하세요',
@@ -40,7 +42,9 @@ class LoginScreen extends ConsumerWidget {
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
                 ),
-                const SizedBox(height: 22,),
+                const SizedBox(
+                  height: 22,
+                ),
                 Row(
                   children: [
                     InkWell(
@@ -53,37 +57,41 @@ class LoginScreen extends ConsumerWidget {
                         height: 24,
                       ),
                     ),
-                    const SizedBox(width: 6,),
-                    const Text(
-                      '자동로그인',
-                      style: CustomText.body6
+                    const SizedBox(
+                      width: 6,
                     ),
+                    const Text('자동로그인', style: CustomText.body6),
                   ],
                 ),
-                const SizedBox(height: 12,),
-                BlueTextButton(
-                    onPressed: () {
-                      // TODO : 로그인 로직 추가
-                      context.go('/home_screen');
-                    },
-                    text: '로그인',
+                const SizedBox(
+                  height: 12,
                 ),
-                const SizedBox(height: 22,),
+                BlueTextButton(
+                  onPressed: () {
+                    // TODO : 로그인 로직 추가
+                    context.go('/home_screen');
+                  },
+                  text: '로그인',
+                ),
+                const SizedBox(
+                  height: 22,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(
                       onTap: () {
                         // TODO : 회원가입 화면 이동
+
+                        context.go('/register_screen');
                       },
                       child: Text(
                         "회원가입",
                         style: TextStyle(
-                          fontSize: CustomText.body7.fontSize,
-                          fontWeight: CustomText.body7.fontWeight,
-                          fontFamily: CustomText.body7.fontFamily,
-                          color: CustomColor.extraDarkGray
-                        ),
+                            fontSize: CustomText.body7.fontSize,
+                            fontWeight: CustomText.body7.fontWeight,
+                            fontFamily: CustomText.body7.fontFamily,
+                            color: CustomColor.extraDarkGray),
                       ),
                     ),
                     InkWell(
@@ -96,15 +104,14 @@ class LoginScreen extends ConsumerWidget {
                             fontSize: CustomText.body7.fontSize,
                             fontWeight: CustomText.body7.fontWeight,
                             fontFamily: CustomText.body7.fontFamily,
-                            color: CustomColor.extraDarkGray
-                        ),
+                            color: CustomColor.extraDarkGray),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-          ), 
+          ),
         ),
       ),
     );

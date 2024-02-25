@@ -4,3 +4,4 @@ export 'root_screen.dart';
 export 'home/home.dart';
 export 'my/my.dart';
 export 'analysis/analysis.dart';
+export 'register/register.dart';
