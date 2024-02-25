@@ -83,7 +83,7 @@ class LoginScreen extends ConsumerWidget {
                       onTap: () {
                         // TODO : 회원가입 화면 이동
 
-                        context.go('/register_screen');
+                        context.goNamed('register_first_screen');
                       },
                       child: Text(
                         "회원가입",

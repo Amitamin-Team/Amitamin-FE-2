@@ -25,17 +25,20 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         title: '가입설문',
         leadingDisable: true,
         actionDisable: false,
-        actionOnPressed: () => context.replace('/login'),
+        actionOnPressed: () => context.replace('/login_screen'),
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.pop(),
         text: "3 / 3",
-        nextOnTap: () => context.replace('/login'),
+        nextOnTap: () {
+          // TODO : 회원가입 API 연동
+          context.replace('/login_screen');
+        },
         nextText: "완료",
       ),
       child: WillPopScope(
         onWillPop: () async {
-          context.replace('/login');
+          context.replace('/login_screen');
           return false;
         },
         child: SafeArea(

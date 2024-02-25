@@ -21,16 +21,16 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
         title: '회원가입',
         leadingDisable: true,
         actionDisable: false,
-        actionOnPressed: () => context.replace('/login'),
+        actionOnPressed: () => context.replace('/login_screen'),
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.pop(),
         text: "2 / 3",
-        nextOnTap: () => context.go('/register_screen/register_third_screen'),
+        nextOnTap: () => context.goNamed('register_third_screen'),
       ),
       child: WillPopScope(
         onWillPop: () async {
-          context.replace('/login');
+          context.replace('/login_screen');
           return false;
         },
         child: SafeArea(

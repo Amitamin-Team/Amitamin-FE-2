@@ -11,7 +11,7 @@ abstract class RegisterRepository {
 
   
   @POST('/users')
-  Future<ResponseRegisterModel> requestRegisterRepository({
+  Future<ResponseCommonListModel> requestRegisterRepository({
     required RequestRegisterModel requestRegisterModel
   });
 }
