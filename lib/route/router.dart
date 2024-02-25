@@ -26,19 +26,26 @@ final router = GoRouter(
           path: '/my_screen',
           builder: (context, state) => MyScreen(),
         ),
+      ],
+    ),
+    GoRoute(
+      path: '/register_first_screen',
+      name: 'register_first_screen',
+      builder: (context, state) => RegisterFirstScreen(),
+      routes: [
         GoRoute(
-          path: '/register_screen',
-          builder: (context, state) => RegisterFirstScreen(),
-        ),
-        GoRoute(
-          path: '/register_screen/register_second_screen',
+          path: 'register_second_screen',
+          name: 'register_second_screen',
           builder: (context, state) => RegisterSecondScreen(),
-        ),
-        GoRoute(
-          path: '/register_screen/register_third_screen',
-          builder: (context, state) => RegisterThirdScreen(),
+          routes: [
+            GoRoute(
+              path: 'register_third_screen',
+              name: 'register_third_screen',
+              builder: (context, state) => RegisterThirdScreen(),
+            ),
+          ],
         ),
       ],
-    )
+    ),
   ],
 );

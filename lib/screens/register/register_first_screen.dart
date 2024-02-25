@@ -22,16 +22,16 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
         title: '회원가입',
         leadingDisable: true,
         actionDisable: false,
-        actionOnPressed: () => context.replace('/login'),
+        actionOnPressed: () => context.replace('/login_screen'),
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
-        backDisable: true,
+        backOnTap: () => context.replace('/login_screen'),
         text: "1 / 3",
-        nextOnTap: () => context.go('/register_screen/register_second_screen'),
+        nextOnTap: () => context.goNamed('register_second_screen'),
       ),
       child: WillPopScope(
         onWillPop: () async {
-          context.replace('/login');
+          context.replace('/login_screen');
           return false;
         },
         child: SafeArea(

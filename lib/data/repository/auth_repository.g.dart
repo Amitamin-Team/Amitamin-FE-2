@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'register_repository.dart';
+part of 'auth_repository.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'register_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _RegisterRepository implements RegisterRepository {
-  _RegisterRepository(
+class _AuthRepository implements AuthRepository {
+  _AuthRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -19,8 +19,36 @@ class _RegisterRepository implements RegisterRepository {
   String? baseUrl;
 
   @override
-  Future<ResponseCommonListModel> requestRegisterRepository(
-      {required RequestRegisterModel requestRegisterModel}) async {
+  Future<ResponseCommonMapModel> requestLoginRepository(
+      {required RequestLoginModel requestLoginModel}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ResponseCommonMapModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ResponseCommonMapModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ResponseCommonListModel> requestLogoutRepository(
+      {required RequestLogoutModel requestLogoutModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -33,7 +61,7 @@ class _RegisterRepository implements RegisterRepository {
     )
             .compose(
               _dio.options,
-              '/users',
+              '/logout',
               queryParameters: queryParameters,
               data: _data,
             )

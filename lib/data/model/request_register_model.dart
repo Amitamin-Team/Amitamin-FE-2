@@ -7,17 +7,19 @@ class RequestRegisterModel {
   final String nickname;
   final String sex;
   final String birth_date;
-  final bool privateYN;
   final String email;
   final String password;
+  final String private_yn;
+  final String survey_summary;
 
   RequestRegisterModel({
     required this.nickname,
     required this.sex,
     required this.birth_date,
-    required this.privateYN,
     required this.email,
-    required this.password
+    required this.password,
+    required this.private_yn,
+    required this.survey_summary
   });
 
   factory RequestRegisterModel.fromJson(Map<String, dynamic> json) => _$RequestRegisterModelFromJson(json);
