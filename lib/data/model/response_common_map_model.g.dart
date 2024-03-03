@@ -9,15 +9,15 @@ part of 'response_common_map_model.dart';
 ResponseCommonMapModel _$ResponseCommonMapModelFromJson(
         Map<String, dynamic> json) =>
     ResponseCommonMapModel(
-      code: json['code'] as int,
-      message: json['message'] as String,
+      response_code: json['response_code'] as int,
+      response_message: json['response_message'] as String,
       data: json['data'] as Map<String, dynamic>,
     );
 
 Map<String, dynamic> _$ResponseCommonMapModelToJson(
         ResponseCommonMapModel instance) =>
     <String, dynamic>{
-      'code': instance.code,
-      'message': instance.message,
+      'response_code': instance.response_code,
+      'response_message': instance.response_message,
       'data': instance.data,
     };

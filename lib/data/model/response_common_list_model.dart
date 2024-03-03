@@ -4,13 +4,13 @@ part 'response_common_list_model.g.dart';
 
 @JsonSerializable()
 class ResponseCommonListModel {
-  final int code;
-  final String message;
+  final int response_code;
+  final String response_message;
   final List<dynamic> data;
 
   ResponseCommonListModel({
-    required this.code,
-    required this.message,
+    required this.response_code,
+    required this.response_message,
     required this.data
   });
 
