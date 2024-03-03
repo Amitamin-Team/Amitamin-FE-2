@@ -113,6 +113,11 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                   const SizedBox(
                     height: 12,
                   ),
+                  OutlinedInput(
+                    onChanged: (String birth) {},
+                    hintText: '생년월일을 입력하세요',
+                    keyboardType: TextInputType.number,
+                  ),
                 ],
               ),
             ),

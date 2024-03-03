@@ -9,15 +9,15 @@ part of 'response_common_list_model.dart';
 ResponseCommonListModel _$ResponseCommonListModelFromJson(
         Map<String, dynamic> json) =>
     ResponseCommonListModel(
-      code: json['code'] as int,
-      message: json['message'] as String,
+      response_code: json['response_code'] as int,
+      response_message: json['response_message'] as String,
       data: json['data'] as List<dynamic>,
     );
 
 Map<String, dynamic> _$ResponseCommonListModelToJson(
         ResponseCommonListModel instance) =>
     <String, dynamic>{
-      'code': instance.code,
-      'message': instance.message,
+      'response_code': instance.response_code,
+      'response_message': instance.response_message,
       'data': instance.data,
     };
