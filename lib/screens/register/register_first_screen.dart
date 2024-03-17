@@ -1,3 +1,4 @@
+import 'package:amitamin_frontend/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,13 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
         title: '회원가입',
         leadingDisable: true,
         actionDisable: false,
-        actionOnPressed: () => context.replace('/login_screen'),
+        actionOnPressed: () {
+          showConfirmDialog(
+            context: context, 
+            middleText: Sentence.registerExitQuestion, 
+            onConfirm: () => context.replace('/login_screen')
+          );
+        },
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.replace('/login_screen'),
@@ -31,7 +38,11 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
       ),
       child: WillPopScope(
         onWillPop: () async {
-          context.replace('/login_screen');
+          showConfirmDialog(
+            context: context, 
+            middleText: Sentence.registerExitQuestion, 
+            onConfirm: () => context.replace('/login_screen')
+          );
           return false;
         },
         child: SafeArea(
@@ -56,10 +67,9 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: OutlinedInput(
-                          onChanged: (String email) {},
+                          onChanged: (String nickname) {},
                           hintText: '닉네임을 입력하세요',
                           keyboardType: TextInputType.text,
-                          obscureText: true,
                         ),
                       ),
                       const Spacer(),

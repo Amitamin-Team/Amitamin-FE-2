@@ -25,7 +25,13 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         title: '가입설문',
         leadingDisable: true,
         actionDisable: false,
-        actionOnPressed: () => context.replace('/login_screen'),
+        actionOnPressed: () {
+          showConfirmDialog(
+            context: context, 
+            middleText: Sentence.registerExitQuestion, 
+            onConfirm: () => context.replace('/login_screen')
+          );
+        },
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.pop(),
@@ -38,7 +44,11 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
       ),
       child: WillPopScope(
         onWillPop: () async {
-          context.replace('/login_screen');
+          showConfirmDialog(
+            context: context, 
+            middleText: Sentence.registerExitQuestion, 
+            onConfirm: () => context.replace('/login_screen')
+          );
           return false;
         },
         child: SafeArea(
