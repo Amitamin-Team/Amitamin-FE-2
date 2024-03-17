@@ -82,7 +82,6 @@ class LoginScreen extends ConsumerWidget {
                     InkWell(
                       onTap: () {
                         // TODO : 회원가입 화면 이동
-
                         context.goNamed('register_first_screen');
                       },
                       child: Text(

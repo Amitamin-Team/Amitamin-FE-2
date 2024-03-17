@@ -67,8 +67,8 @@ class CustomInterceptor extends Interceptor {
         );
 
         // 응답으로 받은 토큰 
-        final accessToken = resp.data['accessToken'];
-        final refreshToken = resp.data['refreshToken'];
+        final accessToken = resp.data['access_token'];
+        final refreshToken = resp.data['refresh_token'];
         // secure storage에 토큰 다시 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: refreshToken);

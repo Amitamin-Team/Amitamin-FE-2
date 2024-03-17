@@ -21,7 +21,13 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
         title: '회원가입',
         leadingDisable: true,
         actionDisable: false,
-        actionOnPressed: () => context.replace('/login_screen'),
+        actionOnPressed: () {
+          showConfirmDialog(
+            context: context, 
+            middleText: Sentence.registerExitQuestion, 
+            onConfirm: () => context.replace('/login_screen')
+          );
+        },
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.pop(),
@@ -30,7 +36,11 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
       ),
       child: WillPopScope(
         onWillPop: () async {
-          context.replace('/login_screen');
+          showConfirmDialog(
+            context: context, 
+            middleText: Sentence.registerExitQuestion, 
+            onConfirm: () => context.replace('/login_screen')
+          );
           return false;
         },
         child: SafeArea(
