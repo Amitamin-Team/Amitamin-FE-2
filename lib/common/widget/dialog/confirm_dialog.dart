@@ -15,6 +15,7 @@ showConfirmDialog({
           borderRadius: BorderRadius.circular(16),
         ),
         child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8 + 1,
           height: 161,
           child: Column(
             children: [
