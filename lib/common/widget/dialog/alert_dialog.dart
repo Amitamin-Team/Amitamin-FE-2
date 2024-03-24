@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 
 showAlertDialog({
   required BuildContext context,
-  required String middleText,
-  required VoidCallback onConfirm,
+  required String middleText
 }) {
   showDialog(
     context: context, 
