@@ -24,9 +24,12 @@ showConfirmDialog({
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      middleText,
-                      style: CustomText.body1,
+                    Flexible(
+                      child: Text(
+                        middleText,
+                        style: CustomText.body1,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ],
                 ),
