@@ -4,12 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:amitamin_frontend/data/data.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoginScreen> createState() => LoginScreenState();
+}
+
+class LoginScreenState extends ConsumerState<LoginScreen> {
+  TextEditingController emailInputController = TextEditingController();
+  TextEditingController passwordInputController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // 자동로그인 state 값 최초 설정
+    ref.read(autoLoginProvider.notifier).init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final autoLoginState = ref.watch(autoLoginProvider);
+    final loginButtonState = ref.watch(loginButtonProvider);
+
     return DefaultLayout(
       child: WillPopScope(
         onWillPop: () async {
@@ -31,13 +51,21 @@ class LoginScreen extends ConsumerWidget {
                   height: 40,
                 ),
                 OutlinedInput(
-                  onChanged: (String email) {},
+                  controller: emailInputController,
+                  onChanged: (String email) {
+                    ref.read(loginButtonProvider.notifier).activate(
+                      emailInputController.text, passwordInputController.text);
+                  },
                   hintText: '이메일을 입력하세요',
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 12),
                 OutlinedInput(
-                  onChanged: (String pwd) {},
+                  controller: passwordInputController,
+                  onChanged: (String password) {
+                    ref.read(loginButtonProvider.notifier).activate(
+                      emailInputController.text, passwordInputController.text);
+                  },
                   hintText: '비밀번호를 입력하세요',
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
@@ -49,9 +77,14 @@ class LoginScreen extends ConsumerWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        // TODO : secure_storage 값 저장 로직 추가
+                        // radio button toggle 수행
+                        ref.read(autoLoginProvider.notifier).toggle();
                       },
-                      child: SvgPicture.asset(
+                      child: autoLoginState ? SvgPicture.asset(
+                        "assets/icons/radio_checked.svg",
+                        width: 24,
+                        height: 24,
+                      ) : SvgPicture.asset(
                         "assets/icons/radio_unchecked.svg",
                         width: 24,
                         height: 24,
@@ -67,11 +100,32 @@ class LoginScreen extends ConsumerWidget {
                   height: 12,
                 ),
                 BlueTextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // TODO : 로그인 로직 추가
+                    if(emailInputController.text.isEmpty) {
+                      showAlertDialog(context: context, middleText: "이메일을 입력해주세요.");
+                      return;
+                    }
+                    if(passwordInputController.text.isEmpty) {
+                      showAlertDialog(context: context, middleText: "비밀번호를 입력해주세요.");
+                      return;
+                    }
+
+                    // TODO : 로그인 API 연동
+                    /*final result = await login(emailInputController.text, passwordInputController.text);
+                    
+                    if(context.mounted) {
+                      if(result) {
+                        context.go('/home_screen');
+                      } else {
+                        showAlertDialog(context: context, middleText: "이메일/비밀번호를 다시 확인해주세요.");
+                      } 
+                    }*/
+
                     context.go('/home_screen');
                   },
                   text: '로그인',
+                  disabled: !loginButtonState,
                 ),
                 const SizedBox(
                   height: 22,
@@ -114,5 +168,24 @@ class LoginScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> login(String email, String password) async {
+    bool state = false;
+
+    final response = await ref.read(authRepositoryProvider).requestLoginRepository(
+      requestLoginModel: RequestLoginModel(
+        email: email,
+        password: password
+      ),
+    );
+
+    if(response.response_code == 200) {
+      // TODO : token 삽입 로직 추가
+
+      state = true;
+    } 
+
+    return state;
   }
 }
