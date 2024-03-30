@@ -2,10 +2,10 @@ import 'package:amitamin_frontend/common/common.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class AutoLoginState extends StateNotifier<bool> {
+class AutoLoginRadioState extends StateNotifier<bool> {
   final FlutterSecureStorage storage;
 
-  AutoLoginState({
+  AutoLoginRadioState({
     required this.storage,
   }) : super(false); 
   
@@ -24,8 +24,8 @@ class AutoLoginState extends StateNotifier<bool> {
   }
 }
 
-final autoLoginProvider = StateNotifierProvider<AutoLoginState, bool>((ref) {
+final autoLoginRadioProvider = StateNotifierProvider<AutoLoginRadioState, bool>((ref) {
   final storage = ref.watch(secureStorageProvider);
 
-  return AutoLoginState(storage: storage);
+  return AutoLoginRadioState(storage: storage);
 });

@@ -21,13 +21,12 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   void initState() {
     super.initState();
     // 자동로그인 state 값 최초 설정
-    ref.read(autoLoginProvider.notifier).init();
+    ref.read(autoLoginRadioProvider.notifier).init();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final autoLoginState = ref.watch(autoLoginProvider);
+    final autoLoginRadioState = ref.watch(autoLoginRadioProvider);
     final loginButtonState = ref.watch(loginButtonProvider);
 
     return DefaultLayout(
@@ -78,9 +77,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     InkWell(
                       onTap: () {
                         // radio button toggle 수행
-                        ref.read(autoLoginProvider.notifier).toggle();
+                        ref.read(autoLoginRadioProvider.notifier).toggle();
                       },
-                      child: autoLoginState ? SvgPicture.asset(
+                      child: autoLoginRadioState ? SvgPicture.asset(
                         "assets/icons/radio_checked.svg",
                         width: 24,
                         height: 24,
