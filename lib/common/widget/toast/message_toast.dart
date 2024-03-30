@@ -7,7 +7,7 @@ void messageToast(context, message) {
   fToast.init(context);
 
   Widget toast = Container(
-    width: MediaQuery.of(context).size.width * 0.8,
+    width: MediaQuery.of(context).size.width,
     height: 45,
     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
     decoration: BoxDecoration(

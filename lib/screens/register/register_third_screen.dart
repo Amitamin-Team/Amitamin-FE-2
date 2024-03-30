@@ -1,3 +1,4 @@
+import 'package:amitamin_frontend/data/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import 'register_navigationbar.dart';
 
 import 'package:amitamin_frontend/common/common.dart';
 
+import 'utils/utils.dart';
 import 'widget/widget.dart';
 
 class RegisterThirdScreen extends ConsumerStatefulWidget {
@@ -20,6 +22,8 @@ class RegisterThirdScreen extends ConsumerStatefulWidget {
 class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
   @override
   Widget build(BuildContext context) {
+    final surveyRadioState = ref.watch(surveyRadioProvider);
+
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '가입설문',
@@ -29,7 +33,10 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
           showConfirmDialog(
             context: context, 
             middleText: Sentence.registerExitQuestion, 
-            onConfirm: () => context.replace('/login_screen')
+            onConfirm: () {
+              fnInitRegisterProviders(ref, "all");
+              context.replace('/login_screen');
+            }
           );
         },
       ),
@@ -38,6 +45,8 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         text: "3 / 3",
         nextOnTap: () {
           // TODO : 회원가입 API 연동
+
+          fnInitRegisterProviders(ref, "all");
           context.replace('/login_screen');
         },
         nextText: "완료",
@@ -47,7 +56,10 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
           showConfirmDialog(
             context: context, 
             middleText: Sentence.registerExitQuestion, 
-            onConfirm: () => context.replace('/login_screen')
+            onConfirm: () {
+              fnInitRegisterProviders(ref, "all");
+              context.replace('/login_screen');
+            }
           );
           return false;
         },
@@ -71,8 +83,14 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                   Row(
                     children: [
                       InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(
+                        onTap: () {
+                          ref.read(surveyRadioProvider.notifier).setState("1");
+                        },
+                        child: surveyRadioState == "1" ? SvgPicture.asset(
+                          "assets/icons/radio_checked.svg",
+                          width: 24,
+                          height: 24,
+                        ) : SvgPicture.asset(
                           "assets/icons/radio_unchecked.svg",
                           width: 24,
                           height: 24,
@@ -91,8 +109,14 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                   Row(
                     children: [
                       InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(
+                        onTap: () {
+                          ref.read(surveyRadioProvider.notifier).setState("2");
+                        },
+                        child: surveyRadioState == "2" ? SvgPicture.asset(
+                          "assets/icons/radio_checked.svg",
+                          width: 24,
+                          height: 24,
+                        ) : SvgPicture.asset(
                           "assets/icons/radio_unchecked.svg",
                           width: 24,
                           height: 24,
@@ -111,8 +135,14 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                   Row(
                     children: [
                       InkWell(
-                        onTap: () {},
-                        child: SvgPicture.asset(
+                        onTap: () {
+                          ref.read(surveyRadioProvider.notifier).setState("3");
+                        },
+                        child: surveyRadioState == "3" ? SvgPicture.asset(
+                          "assets/icons/radio_checked.svg",
+                          width: 24,
+                          height: 24,
+                        ) : SvgPicture.asset(
                           "assets/icons/radio_unchecked.svg",
                           width: 24,
                           height: 24,
@@ -133,8 +163,14 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                       Row(
                         children: [
                           InkWell(
-                            onTap: () {},
-                            child: SvgPicture.asset(
+                            onTap: () {
+                              ref.read(surveyRadioProvider.notifier).setState("4");
+                            },
+                            child: surveyRadioState == "4" ? SvgPicture.asset(
+                              "assets/icons/radio_checked.svg",
+                              width: 24,
+                              height: 24,
+                            ) : SvgPicture.asset(
                               "assets/icons/radio_unchecked.svg",
                               width: 24,
                               height: 24,

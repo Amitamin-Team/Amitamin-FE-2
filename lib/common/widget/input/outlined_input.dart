@@ -1,5 +1,6 @@
 import 'package:amitamin_frontend/common/const/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class OutlinedInput extends StatelessWidget {
   const OutlinedInput({
@@ -12,6 +13,9 @@ class OutlinedInput extends StatelessWidget {
     this.enabled = true,
     this.validator,
     this.errorText,
+    this.inputFormatter,
+    this.enabledBorder,
+    this.focusedBorder,
   }) : super(key: key);
 
   final TextEditingController? controller;
@@ -22,6 +26,9 @@ class OutlinedInput extends StatelessWidget {
   final bool enabled;
   final String? Function(String?)? validator;
   final String? errorText;
+  final List<TextInputFormatter>? inputFormatter;
+  final Color? enabledBorder;
+  final Color? focusedBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +51,14 @@ class OutlinedInput extends StatelessWidget {
           ),
           errorText: errorText,
           errorStyle: const TextStyle(color: CustomColor.error, fontSize: 13),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide(color: enabledBorder ?? CustomColor.lightGray),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide(width: 1, color: focusedBorder ?? CustomColor.primaryBlue100),
+          ),
         ),
         style: TextStyle(
           fontFamily: CustomText.body4.fontFamily,
@@ -53,6 +68,7 @@ class OutlinedInput extends StatelessWidget {
           decorationThickness: 0,
         ),
         cursorColor: CustomColor.primaryBlue100,
+        inputFormatters: inputFormatter ?? [],
       ),
     );
   }
