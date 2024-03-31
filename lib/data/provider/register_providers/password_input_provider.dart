@@ -8,7 +8,7 @@ class PasswordInputState extends StateNotifier<String> {
   }
 
   String validate(String password, String confirmPassword) {
-    state = "pass";
+    state = "pass_all"; // dio 요청이 필요없는 로직 : pass_all
     
     if(password.isEmpty) {
       state = "no_data";
@@ -19,6 +19,12 @@ class PasswordInputState extends StateNotifier<String> {
     }
 
     return state;
+  }
+
+  bool getValidBoolState() {
+    return (state != "pass_all" && 
+            state != "init" &&
+            state != "not_matched") ? true : false;
   }
 }
 

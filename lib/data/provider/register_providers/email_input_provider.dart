@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class EmailInputState extends StateNotifier<String> {
   EmailInputState() : super("init");
 
-  void setState(String value) {
+  void set(String value) {
     state = value;
   }
 
+  String get() {
+    return state;
+  }
+
   String validate(String email) {
-    state = "pass";
+    state = "pass_valid";
     
     if(email.isEmpty) {
       state = "no_data";
@@ -17,6 +21,18 @@ class EmailInputState extends StateNotifier<String> {
     }
 
     return state;
+  }
+
+  bool getValidBoolState() {
+    return (state != "pass_valid" && 
+            state != "pass_all" && 
+            state != "init") ? true : false;
+  }
+
+  bool getVisibleCodeContentState() {
+    return (state == "pass_valid" || 
+            state == "pass_all" ||
+            state == "already_certified") ? true : false;
   }
 }
 

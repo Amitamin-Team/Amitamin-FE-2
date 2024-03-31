@@ -1,4 +1,4 @@
-import 'package:amitamin_frontend/data/provider/provider.dart';
+import 'package:amitamin_frontend/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +20,8 @@ class RegisterThirdScreen extends ConsumerStatefulWidget {
 }
 
 class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
+  TextEditingController etcInputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final surveyRadioState = ref.watch(surveyRadioProvider);
@@ -43,10 +45,8 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.pop(),
         text: "3 / 3",
-        nextOnTap: () {
-          // TODO : 회원가입 API 연동
-
-          fnInitRegisterProviders(ref, "all");
+        nextOnTap: () async {
+          // await register(ref);
           context.replace('/login_screen');
         },
         nextText: "완료",
@@ -84,7 +84,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(surveyRadioProvider.notifier).setState("1");
+                          ref.read(surveyRadioProvider.notifier).set("1");
                         },
                         child: surveyRadioState == "1" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
@@ -110,7 +110,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(surveyRadioProvider.notifier).setState("2");
+                          ref.read(surveyRadioProvider.notifier).set("2");
                         },
                         child: surveyRadioState == "2" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
@@ -136,7 +136,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(surveyRadioProvider.notifier).setState("3");
+                          ref.read(surveyRadioProvider.notifier).set("3");
                         },
                         child: surveyRadioState == "3" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
@@ -164,7 +164,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              ref.read(surveyRadioProvider.notifier).setState("4");
+                              ref.read(surveyRadioProvider.notifier).set("4");
                             },
                             child: surveyRadioState == "4" ? SvgPicture.asset(
                               "assets/icons/radio_checked.svg",
@@ -197,10 +197,10 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                             width: MediaQuery.of(context).size.width - 61,
                             height: 36,
                             child: OutlinedEtcInput(
+                              controller: etcInputController,
                               onChanged: (String pwd) {},
                               hintText: '내용을 입력해주세요',
                               keyboardType: TextInputType.text,
-                              obscureText: true,
                             ),
                           ),
                         ],
@@ -221,5 +221,46 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> register(WidgetRef ref) async {
+    String survey_summary = ref.read(surveyRadioProvider.notifier).get();
+
+    if(survey_summary == "") {
+      showAlertDialog(context: context, middleText: "가입설문 내용을 선택해주세요.");
+      return;
+    } else if (survey_summary == "4") {
+      if(etcInputController.text.isEmpty) {
+        showAlertDialog(context: context, middleText: "기타의 내용을 입력해주세요.");
+        return;
+      }
+      survey_summary += ", ${etcInputController.text}";
+      ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
+    } else {
+      ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
+    }
+
+    final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
+      requestRegisterModel: ref.read(registerModelProvider.notifier).get()
+    );
+
+    if(response.response_code == 200) {
+      fnInitRegisterProviders(ref, "all");
+
+      if(context.mounted) {
+        context.replace('/login_screen');
+      }
+    } else {
+      if(context.mounted) {
+        showConfirmDialog(
+          context: context, 
+          middleText: "회원가입에 실패했습니다.\n로그인 화면으로 이동합니다.", 
+          onConfirm: () {
+            fnInitRegisterProviders(ref, "all");
+            context.replace('/login_screen');
+          }
+        );
+      }
+    }
   }
 }

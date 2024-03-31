@@ -11,7 +11,7 @@ RequestRegisterModel _$RequestRegisterModelFromJson(
     RequestRegisterModel(
       nickname: json['nickname'] as String,
       sex: json['sex'] as String,
-      birth_date: json['birth_date'] as String,
+      birth: json['birth'] as String,
       email: json['email'] as String,
       password: json['password'] as String,
       private_yn: json['private_yn'] as String,
@@ -23,7 +23,7 @@ Map<String, dynamic> _$RequestRegisterModelToJson(
     <String, dynamic>{
       'nickname': instance.nickname,
       'sex': instance.sex,
-      'birth_date': instance.birth_date,
+      'birth': instance.birth,
       'email': instance.email,
       'password': instance.password,
       'private_yn': instance.private_yn,

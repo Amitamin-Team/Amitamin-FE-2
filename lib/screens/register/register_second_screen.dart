@@ -49,16 +49,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () => context.pop(),
         text: "2 / 3",
-        nextOnTap: () {
-          // TODO : 2번째 회원가입 화면 입력값 전체 검증 로직 필요
-          String verfiyPasswordInputResult = ref.watch(passwordInputProvider.notifier).validate(
-            passwordInputController.text,passwordConfirmInputController.text
-          );
-
-          if(verfiyPasswordInputResult == "pass") {
-            context.goNamed('register_third_screen');
-          }
-        },
+        nextOnTap: () => goToNextScreen(ref),
       ),
       child: WillPopScope(
         onWillPop: () async {
@@ -115,12 +106,12 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                           },
                           hintText: '이메일을 입력하세요',
                           keyboardType: TextInputType.emailAddress,
-                          enabledBorder: (emailInputState != "pass" && 
-                                          emailInputState != "init") ?
+                          enabledBorder: (ref.read(emailInputProvider.notifier).getValidBoolState() &&
+                                          emailInputState != "already_certified")?
                                             CustomColor.error :
-                                            CustomColor.primaryBlue100,
-                          focusedBorder: (emailInputState != "pass" && 
-                                          emailInputState != "init") ?
+                                            CustomColor.lightGray,
+                          focusedBorder: (ref.read(emailInputProvider.notifier).getValidBoolState() &&
+                                          emailInputState != "already_certified") ?
                                             CustomColor.error :
                                             CustomColor.primaryBlue100,
                         ),
@@ -135,7 +126,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                               emailInputController.text
                             );
                             
-                            if(verifyEmailInputResult == "pass") {
+                            if(verifyEmailInputResult == "pass_valid") {
                               // TODO : 인증하기 로직 추가
 
                               // toast 메시지
@@ -149,8 +140,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ],
                   ),
                   Visibility(
-                    visible: (emailInputState != "pass" && 
-                              emailInputState != "init") ? true : false,
+                    visible: ref.read(emailInputProvider.notifier).getValidBoolState(),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -175,7 +165,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ),
                   ),
                   Visibility(
-                    visible: emailInputState == "pass" ? true : false,
+                    visible: ref.watch(emailInputProvider.notifier).getVisibleCodeContentState(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -205,12 +195,10 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                                 inputFormatter: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
-                                enabledBorder: (verificationCodeInputState != "pass" && 
-                                                verificationCodeInputState != "init") ?
+                                enabledBorder: ref.read(verificationCodeInputProvider.notifier).getValidBoolState() ?
                                                   CustomColor.error :
-                                                  CustomColor.primaryBlue100,
-                                focusedBorder: (verificationCodeInputState != "pass" && 
-                                                verificationCodeInputState != "init") ?
+                                                  CustomColor.lightGray,
+                                focusedBorder: ref.read(verificationCodeInputProvider.notifier).getValidBoolState() ?
                                                   CustomColor.error :
                                                   CustomColor.primaryBlue100,
                               ),
@@ -224,8 +212,8 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                                     codeInputController.text
                                   );
 
-                                  if(verifyCodeInputResult == "pass") {
-                                    // TODO : 인증번호 확인 로직 추가
+                                  if(verifyCodeInputResult == "pass_valid") {
+                                    // TODO : 인증번호 확인 로직 추가, 확인 완료 시 : pass_all 세팅
                                   }
                                 },
                                 text: "인증확인",
@@ -238,8 +226,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ),
                   ),
                   Visibility(
-                    visible: (verificationCodeInputState != "pass" && 
-                              verificationCodeInputState != "init") ? true : false,
+                    visible: ref.read(verificationCodeInputProvider.notifier).getValidBoolState(),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -248,6 +235,8 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                         Text(
                           verificationCodeInputState == "no_data" ?
                           "인증번호를 입력해주세요" :
+                          verificationCodeInputState == "invalid_code" ?
+                          "인증번호가 맞지 않아요" :
                           "",
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
@@ -275,21 +264,15 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     hintText: '비밀번호를 입력하세요',
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    enabledBorder: (passwordInputState != "pass" && 
-                                    passwordInputState != "init" &&
-                                    passwordInputState != "not_matched")  ? 
+                    enabledBorder: ref.read(passwordInputProvider.notifier).getValidBoolState() ? 
                                     CustomColor.error : 
-                                    CustomColor.primaryBlue100,
-                    focusedBorder: (passwordInputState != "pass" && 
-                                    passwordInputState != "init" &&
-                                    passwordInputState != "not_matched")  ? 
+                                    CustomColor.lightGray,
+                    focusedBorder: ref.read(passwordInputProvider.notifier).getValidBoolState() ? 
                                     CustomColor.error : 
                                     CustomColor.primaryBlue100,
                   ),
                   Visibility(
-                    visible: (passwordInputState != "pass" && 
-                              passwordInputState != "init" &&
-                              passwordInputState != "not_matched") ? true : false,
+                    visible: ref.read(passwordInputProvider.notifier).getValidBoolState() ? true : false,
                     child: Column(
                       children: [
                         const SizedBox(
@@ -329,7 +312,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     obscureText: true,
                     enabledBorder: passwordInputState == "not_matched" ? 
                       CustomColor.error : 
-                      CustomColor.primaryBlue100,
+                      CustomColor.lightGray,
                     focusedBorder: passwordInputState == "not_matched" ? 
                       CustomColor.error : 
                       CustomColor.primaryBlue100,
@@ -365,5 +348,65 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
         ),
       ),
     );
+  }
+
+  void goToNextScreen(WidgetRef ref) {
+    // 유효성 검증
+    String verifyEmailInputResult = ref.watch(emailInputProvider.notifier).validate(
+      emailInputController.text
+    );
+
+    if(verifyEmailInputResult == "no_data") {
+      showAlertDialog(context: context, middleText: "이메일을 입력해주세요.");
+      return;
+    }
+    if(verifyEmailInputResult == "invalid_format") {
+      showAlertDialog(context: context, middleText: "올바른 이메일 형식이 아닙니다.");
+      return;
+    }
+
+    String verifyCodeInputResult = ref.read(verificationCodeInputProvider.notifier).validate(
+      codeInputController.text
+    );
+
+    // TODO : 인증번호 확인 후 pass_all, 추후에 pass_valid 제외시켜야 함
+    if(verifyCodeInputResult == "pass_all" || verifyCodeInputResult == "pass_valid") {
+      ref.read(registerModelProvider.notifier).setEmail(emailInputController.text);
+    } else {
+      if(verifyCodeInputResult == "no_data") {
+        showAlertDialog(context: context, middleText: "인증번호를 입력해주세요.");
+      }
+      /*if(verifyCodeInputResult == "pass_valid") {
+        showAlertDialog(context: context, middleText: "인증번호 인증확인을 해주세요.");
+      }*/
+      if(verifyCodeInputResult == "invalid_code") {
+        showAlertDialog(context: context, middleText: "인증번호가 맞지 않아요.");
+      }
+
+      return;
+    }
+
+    // 비밀번호 유효성 검증
+    String verfiyPasswordInputResult = ref.watch(passwordInputProvider.notifier).validate(
+      passwordInputController.text, passwordConfirmInputController.text
+    );
+    
+    if(verfiyPasswordInputResult == "pass_all") {
+      ref.read(registerModelProvider.notifier).setPassword(passwordInputController.text);
+    } else {
+      if(verfiyPasswordInputResult == "no_data") {
+        showAlertDialog(context: context, middleText: "비밀번호를 입력해주세요.");
+      }
+      if(verfiyPasswordInputResult == "invalid_length") {
+        showAlertDialog(context: context, middleText: "비밀번호를\n8-15자 사이로 입력해 주세요.");
+      }
+      if(verfiyPasswordInputResult == "not_matched") {
+        showAlertDialog(context: context, middleText: "비밀번호가 맞지 않아요.");
+      }
+
+      return;
+    }
+
+    context.goNamed('register_third_screen');
   }
 }

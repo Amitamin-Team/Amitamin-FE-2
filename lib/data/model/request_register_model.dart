@@ -6,7 +6,7 @@ part 'request_register_model.g.dart';
 class RequestRegisterModel {
   final String nickname;
   final String sex;
-  final String birth_date;
+  final String birth;
   final String email;
   final String password;
   final String private_yn;
@@ -15,7 +15,7 @@ class RequestRegisterModel {
   RequestRegisterModel({
     required this.nickname,
     required this.sex,
-    required this.birth_date,
+    required this.birth,
     required this.email,
     required this.password,
     required this.private_yn,
