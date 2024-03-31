@@ -30,6 +30,7 @@ class EmailInputState extends StateNotifier<String> {
   }
 
   bool getVisibleCodeContentState() {
+    // TODO : pass_valid는 추후에 제외해야 함
     return (state == "pass_valid" || 
             state == "pass_all" ||
             state == "already_certified") ? true : false;
