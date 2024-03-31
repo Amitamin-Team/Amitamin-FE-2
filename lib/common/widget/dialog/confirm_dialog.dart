@@ -19,19 +19,22 @@ showConfirmDialog({
           height: 161,
           child: Column(
             children: [
-              SizedBox(
-                height: 110,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        middleText,
-                        style: CustomText.body1,
-                        textAlign: TextAlign.center,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  height: 110,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          middleText,
+                          style: CustomText.body1,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Container(
