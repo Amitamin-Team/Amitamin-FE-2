@@ -31,7 +31,6 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
     final genderButtonState = ref.watch(genderButtonProvider);
     final birthInputState = ref.watch(birthInputProvider);
     final privateRadioState = ref.watch(privateRadioProvider);
-    final registerModelState = ref.watch(registerModelProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
