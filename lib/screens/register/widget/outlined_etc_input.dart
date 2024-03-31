@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:amitamin_frontend/common/common.dart';
+import 'package:flutter/services.dart';
 
 class OutlinedEtcInput extends StatelessWidget {
   const OutlinedEtcInput({
     Key? key,
+    this.controller,
     this.onChanged,
     this.hintText = '',
     this.keyboardType,
@@ -12,6 +14,7 @@ class OutlinedEtcInput extends StatelessWidget {
     this.enabled = true,
   }) : super(key: key);
 
+  final TextEditingController? controller;
   final void Function(String)? onChanged;
   final String hintText;
   final TextInputType? keyboardType;
@@ -21,6 +24,7 @@ class OutlinedEtcInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       enabled: enabled,
       onChanged: onChanged,
       keyboardType: keyboardType,
@@ -40,6 +44,9 @@ class OutlinedEtcInput extends StatelessWidget {
         decorationThickness: 0,
       ),
       cursorColor: CustomColor.primaryBlue100,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp('[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|ᆞ|ᆢ|ㆍ|ᆢ|ᄀᆞ|ᄂᆞ|ᄃᆞ|ᄅᆞ|ᄆᆞ|ᄇᆞ|ᄉᆞ|ᄋᆞ|ᄌᆞ|ᄎᆞ|ᄏᆞ|ᄐᆞ|ᄑᆞ|ᄒᆞ]')),
+      ],
     );
   }
 }

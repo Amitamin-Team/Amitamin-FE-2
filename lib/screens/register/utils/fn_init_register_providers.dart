@@ -1,4 +1,5 @@
 import 'package:amitamin_frontend/data/provider/provider.dart';
+import 'package:amitamin_frontend/data/provider/register_providers/birth_input_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void fnInitRegisterProviders(WidgetRef ref, String screen) {
@@ -13,12 +14,15 @@ void fnInitRegisterProviders(WidgetRef ref, String screen) {
     fnInitRegisterSecondScreenProviders(ref);
     fnInitRegisterThirdScreenProviders(ref);
   }
+  
+  ref.invalidate(registerModelProvider);
 }
 
 void fnInitRegisterFirstScreenProviders(WidgetRef ref) {
     ref.invalidate(nicknameButtonProvider);
     ref.invalidate(nicknameInputProvider);
     ref.invalidate(genderButtonProvider);
+    ref.invalidate(birthInputProvider);
     ref.invalidate(privateRadioProvider);
 }
 

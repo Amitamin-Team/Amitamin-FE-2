@@ -6,6 +6,10 @@ class PrivateRadioState extends StateNotifier<bool> {
   void toggle() {
     state = !state;
   }
+
+  bool get() {
+    return state;
+  }
 }
 
 final privateRadioProvider = StateNotifierProvider<PrivateRadioState, bool>((ref) => PrivateRadioState());

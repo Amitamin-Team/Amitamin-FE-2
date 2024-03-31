@@ -1,4 +1,5 @@
 import 'package:amitamin_frontend/data/data.dart';
+import 'package:amitamin_frontend/data/provider/register_providers/birth_input_provider.dart';
 import 'package:amitamin_frontend/screens/register/utils/utils.dart';
 import 'package:amitamin_frontend/screens/register/widget/widget.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,16 @@ class RegisterFirstScreen extends ConsumerStatefulWidget {
 
 class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
   TextEditingController nicknameInputController = TextEditingController();
+  TextEditingController birthInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final nicknameButtonState = ref.watch(nicknameButtonProvider);
     final nicknameInputState = ref.watch(nicknameInputProvider);
     final genderButtonState = ref.watch(genderButtonProvider);
+    final birthInputState = ref.watch(birthInputProvider);
     final privateRadioState = ref.watch(privateRadioProvider);
+    final registerModelState = ref.watch(registerModelProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -51,7 +55,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
           context.replace('/login_screen');
         },
         text: "1 / 3",
-        nextOnTap: () => context.goNamed('register_second_screen'),
+        nextOnTap: () => goToNextScreen(ref),
       ),
       child: WillPopScope(
         onWillPop: () async {
@@ -108,12 +112,10 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                           },
                           hintText: '닉네임을 입력하세요',
                           keyboardType: TextInputType.text,
-                          enabledBorder: (nicknameInputState != "pass" && 
-                                          nicknameInputState != "init") ? 
+                          enabledBorder: ref.read(nicknameInputProvider.notifier).getValidBoolState() ? 
                                             CustomColor.error :
-                                            CustomColor.primaryBlue100,
-                          focusedBorder: (nicknameInputState != "pass" && 
-                                          nicknameInputState != "init") ? 
+                                            CustomColor.lightGray,
+                          focusedBorder: ref.read(nicknameInputProvider.notifier).getValidBoolState() ? 
                                             CustomColor.error :
                                             CustomColor.primaryBlue100,
                         ),
@@ -128,7 +130,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                               nicknameInputController.text
                             );
 
-                            if(verifyNicknameInputResult == "pass") {
+                            if(verifyNicknameInputResult == "pass_valid") {
                               // TODO : 중복확인 로직 추가
                             }
                           },
@@ -139,8 +141,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                     ],
                   ),
                   Visibility(
-                    visible: (nicknameInputState != "pass" && 
-                              nicknameInputState != "init") ? true : false,
+                    visible: ref.read(nicknameInputProvider.notifier).getValidBoolState(),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -151,6 +152,8 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                             "닉네임을 입력해주세요" :
                             nicknameInputState == "length_over_8" ?
                             "최대 8글자까지 입력할 수 있어요" :
+                            nicknameInputState == "duplicated" ?
+                            "중복된 닉네임이 있어요" :
                             "",
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
@@ -208,6 +211,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                     height: 12,
                   ),
                   OutlinedInput(
+                    controller: birthInputController,
                     onChanged: (String birth) {},
                     hintText: '생년월일을 입력하세요 (예: 1900-01-01)',
                     keyboardType: TextInputType.number,
@@ -216,6 +220,35 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                       LengthLimitingTextInputFormatter(8),
                       BirthdayInputFormatter(),
                     ],
+                    enabledBorder: ref.read(birthInputProvider.notifier).getValidBoolState() ? 
+                                      CustomColor.error :
+                                      CustomColor.lightGray,
+                    focusedBorder: ref.read(birthInputProvider.notifier).getValidBoolState() ? 
+                                      CustomColor.error :
+                                      CustomColor.primaryBlue100,
+                  ),
+                  Visibility(
+                    visible: ref.read(birthInputProvider.notifier).getValidBoolState(),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Text(
+                          birthInputState == "no_data" ?
+                            "생년월일을 입력해주세요" :
+                            birthInputState == "invalid_length" ?
+                            "생년월일을 정확히 입력해주세요" :
+                            "",
+                          style: TextStyle(
+                            fontFamily: CustomText.body7.fontFamily,
+                            fontWeight: CustomText.body7.fontWeight,
+                            fontSize: CustomText.body7.fontSize,
+                            color: CustomColor.error,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 24,
@@ -288,5 +321,71 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
         ),
       ),
     );
+  }
+
+  void goToNextScreen(WidgetRef ref) {
+    // 닉네임 유효성 검증
+    String verifyNicknameInputResult = ref.read(nicknameInputProvider.notifier).validate(
+      nicknameInputController.text
+    );
+
+    // TODO : 닉네임 중복확인 후 pass_all, 추후에 pass_valid 제외시켜야 함
+    if(verifyNicknameInputResult == "pass_all" || verifyNicknameInputResult == "pass_valid") {
+      ref.read(registerModelProvider.notifier).setNickname(nicknameInputController.text);
+    } else {
+      if(verifyNicknameInputResult == "no_data") {
+        showAlertDialog(context: context, middleText: "닉네임을 입력해주세요.");
+      }
+      if(verifyNicknameInputResult == "length_over_8") {
+        showAlertDialog(context: context, middleText: "닉네임은 최대 8글자까지 입력할 수 있어요.");
+      }
+      /*if(verifyNicknameInputResult == "pass_valid") {
+        showAlertDialog(context: context, middleText: "닉네임 중복확인을 해주세요.");
+      }*/
+      if(verifyNicknameInputResult == "duplicated") {
+        showAlertDialog(context: context, middleText: "중복된 닉네임이 있어요.");
+      }
+      return;
+    }
+
+    // 성별 유효성 검증
+    String sex = ref.read(genderButtonProvider.notifier).get();
+    if(sex != "") {
+      ref.read(registerModelProvider.notifier).setGender(sex);
+    } else {
+      showAlertDialog(context: context, middleText: "성별을 선택해주세요.");
+      return;
+    }
+
+    // 생년월일 유효성 검증
+    String verifyBirthInputResult = ref.read(birthInputProvider.notifier).validate(
+      birthInputController.text
+    );
+
+    if(verifyBirthInputResult == "pass_all") {
+      // 19900101 -> 1990-01-01
+      // String formatBirth = "${birthInputController.text.substring(0, 4)}-${birthInputController.text.substring(4, 6)}-${birthInputController.text.substring(6)}";
+      
+      ref.read(registerModelProvider.notifier).setBirth(birthInputController.text);
+    } else {
+      if(verifyBirthInputResult == "no_data") {
+        showAlertDialog(context: context, middleText: "생년월일을 입력해주세요.");
+      }
+      if(verifyBirthInputResult == "invalid_length") {
+        showAlertDialog(context: context, middleText: "생년월일을 정확히 입력해주세요.");
+      }
+      return;
+    }
+
+    // 개인정보 처리 방침 동의 검증
+    bool private_yn = ref.read(privateRadioProvider.notifier).get();
+    if(private_yn) {
+      ref.read(registerModelProvider.notifier).setPrivateYN("Y");
+    } else {
+      showAlertDialog(context: context, middleText: "개인정보 처리 방침에 동의해주세요.");
+      return;
+    }
+
+    context.goNamed('register_second_screen');
   }
 }

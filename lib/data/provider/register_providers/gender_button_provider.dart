@@ -6,6 +6,10 @@ class GenderButtonState extends StateNotifier<String> {
   void set(String gender) {
     state = gender;
   }
+
+  String get() {
+    return state;
+  }
 }
 
 final genderButtonProvider = 

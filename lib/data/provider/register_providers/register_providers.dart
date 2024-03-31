@@ -10,3 +10,5 @@ export 'verification_code_input_provider.dart';
 export 'password_input_provider.dart';
 
 export 'survey_radio_provider.dart';
+
+export 'register_model_provider.dart';
