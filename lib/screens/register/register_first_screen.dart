@@ -324,67 +324,26 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
 
   void validateConditionAndGoToSecondScreen(WidgetRef ref) {
     // 닉네임 유효성 검증
-    String verifyNicknameInputResult = ref.read(nicknameInputProvider.notifier).validate(
-      nicknameInputController.text
-    );
+    bool nicknameResult = validateNickname(ref, context, nicknameInputController.text);
 
-    // TODO : 닉네임 중복확인 후 pass_all, 추후에 pass_valid 제외시켜야 함
-    if(verifyNicknameInputResult == "pass_all" || verifyNicknameInputResult == "pass_valid") {
-      ref.read(registerModelProvider.notifier).setNickname(nicknameInputController.text);
-    } else {
-      if(verifyNicknameInputResult == "no_data") {
-        showAlertDialog(context: context, middleText: "닉네임을 입력해주세요.");
-      }
-      if(verifyNicknameInputResult == "length_over_8") {
-        showAlertDialog(context: context, middleText: "닉네임은 최대 8글자까지 입력할 수 있어요.");
-      }
-      /*if(verifyNicknameInputResult == "pass_valid") {
-        showAlertDialog(context: context, middleText: "닉네임 중복확인을 해주세요.");
-      }*/
-      if(verifyNicknameInputResult == "duplicated") {
-        showAlertDialog(context: context, middleText: "중복된 닉네임이 있어요.");
-      }
-      return;
-    }
+    if(!nicknameResult) return;
 
     // 성별 유효성 검증
-    String sex = ref.read(genderButtonProvider.notifier).get();
-    if(sex != "") {
-      ref.read(registerModelProvider.notifier).setGender(sex);
-    } else {
-      showAlertDialog(context: context, middleText: "성별을 선택해주세요.");
-      return;
-    }
+    bool sexResult = validateSex(ref, context, ref.read(genderButtonProvider.notifier).get());
+
+    if(!sexResult) return;
 
     // 생년월일 유효성 검증
-    String verifyBirthInputResult = ref.read(birthInputProvider.notifier).validate(
-      birthInputController.text
-    );
+    bool birthResult = validateBirth(ref, context, birthInputController.text);
 
-    if(verifyBirthInputResult == "pass_all") {
-      // 19900101 -> 1990-01-01
-      // String formatBirth = "${birthInputController.text.substring(0, 4)}-${birthInputController.text.substring(4, 6)}-${birthInputController.text.substring(6)}";
-      
-      ref.read(registerModelProvider.notifier).setBirth(birthInputController.text);
-    } else {
-      if(verifyBirthInputResult == "no_data") {
-        showAlertDialog(context: context, middleText: "생년월일을 입력해주세요.");
-      }
-      if(verifyBirthInputResult == "invalid_length") {
-        showAlertDialog(context: context, middleText: "생년월일을 정확히 입력해주세요.");
-      }
-      return;
-    }
+    if(!birthResult) return;
 
     // 개인정보 처리 방침 동의 검증
-    bool private_yn = ref.read(privateRadioProvider.notifier).get();
-    if(private_yn) {
-      ref.read(registerModelProvider.notifier).setPrivateYN("Y");
-    } else {
-      showAlertDialog(context: context, middleText: "개인정보 처리 방침에 동의해주세요.");
-      return;
-    }
+    bool privateYnResult = validatePrivateYn(ref, context, ref.read(privateRadioProvider.notifier).get());
 
+    if(!privateYnResult) return;
+
+    // 회원가입 두 번째 페이지로 이동
     context.goNamed('register_second_screen');
   }
 }

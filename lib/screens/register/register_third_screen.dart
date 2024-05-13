@@ -224,7 +224,12 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
   }
 
   Future<void> register(WidgetRef ref) async {
-    String survey_summary = ref.read(surveyRadioProvider.notifier).get();
+    bool surveyResult = validateSurvey(ref, context, 
+                                       ref.read(surveyRadioProvider.notifier).get(), etcInputController.text);
+
+    if(!surveyResult) return;
+
+    /* String survey_summary = ref.read(surveyRadioProvider.notifier).get();
 
     if(survey_summary == "") {
       showAlertDialog(context: context, middleText: "가입설문 내용을 선택해주세요.");
@@ -238,7 +243,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
       ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
     } else {
       ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
-    }
+    } */
 
     final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
       requestRegisterModel: ref.read(registerModelProvider.notifier).get()
