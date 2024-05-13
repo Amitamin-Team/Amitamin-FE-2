@@ -354,62 +354,22 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
   }
 
   void validateConditionAndGoToThirdScreen(WidgetRef ref) {
-    // 유효성 검증
-    String verifyEmailInputResult = ref.watch(emailInputProvider.notifier).validate(
-      emailInputController.text
-    );
+    // 이메일 유효성 검증
+    bool emailResult = validateEmail(ref, context, emailInputController.text);
 
-    if(verifyEmailInputResult == "no_data") {
-      showAlertDialog(context: context, middleText: "이메일을 입력해주세요.");
-      return;
-    }
-    if(verifyEmailInputResult == "invalid_format") {
-      showAlertDialog(context: context, middleText: "올바른 이메일 형식이 아닙니다.");
-      return;
-    }
+    if(!emailResult) return;
 
-    String verifyCodeInputResult = ref.read(verificationCodeInputProvider.notifier).validate(
-      codeInputController.text
-    );
+    // 인증코드 유효성 검증
+    bool codeResult = validateCode(ref, context, codeInputController.text, emailInputController.text);
 
-    // TODO : 인증번호 확인 후 pass_all, 추후에 pass_valid 제외시켜야 함
-    if(verifyCodeInputResult == "pass_all" || verifyCodeInputResult == "pass_valid") {
-      ref.read(registerModelProvider.notifier).setEmail(emailInputController.text);
-    } else {
-      if(verifyCodeInputResult == "no_data") {
-        showAlertDialog(context: context, middleText: "인증번호를 입력해주세요.");
-      }
-      /*if(verifyCodeInputResult == "pass_valid") {
-        showAlertDialog(context: context, middleText: "인증번호 인증확인을 해주세요.");
-      }*/
-      if(verifyCodeInputResult == "invalid_code") {
-        showAlertDialog(context: context, middleText: "인증번호가 맞지 않아요.");
-      }
-
-      return;
-    }
+    if(!codeResult) return;
 
     // 비밀번호 유효성 검증
-    String verfiyPasswordInputResult = ref.watch(passwordInputProvider.notifier).validate(
-      passwordInputController.text, passwordConfirmInputController.text
-    );
-    
-    if(verfiyPasswordInputResult == "pass_all") {
-      ref.read(registerModelProvider.notifier).setPassword(passwordInputController.text);
-    } else {
-      if(verfiyPasswordInputResult == "no_data") {
-        showAlertDialog(context: context, middleText: "비밀번호를 입력해주세요.");
-      }
-      if(verfiyPasswordInputResult == "invalid_length") {
-        showAlertDialog(context: context, middleText: "비밀번호를\n8-15자 사이로 입력해 주세요.");
-      }
-      if(verfiyPasswordInputResult == "not_matched") {
-        showAlertDialog(context: context, middleText: "비밀번호가 맞지 않아요.");
-      }
+    bool passwordResult = validatePassword(ref, context, passwordInputController.text, passwordConfirmInputController.text);
 
-      return;
-    }
+    if(!passwordResult) return;
 
+    // 회원가입 세 번째 페이지로 이동
     context.goNamed('register_third_screen');
   }
 }
