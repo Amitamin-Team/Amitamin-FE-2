@@ -17,7 +17,7 @@ class NicknameInputState extends StateNotifier<String> {
     if(nickname.isEmpty) {
       state = "no_data";
     } else if(nickname.length > 8) {
-      state = "length_over_8";
+      state = "invalid_length";
     }
 
     return state;

@@ -54,7 +54,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
           context.replace('/login_screen');
         },
         text: "1 / 3",
-        nextOnTap: () => goToNextScreen(ref),
+        nextOnTap: () => validateConditionAndGoToSecondScreen(ref),
       ),
       child: WillPopScope(
         onWillPop: () async {
@@ -149,7 +149,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                         Text(
                           nicknameInputState == "no_data" ?
                             "닉네임을 입력해주세요" :
-                            nicknameInputState == "length_over_8" ?
+                            nicknameInputState == "invalid_length" ?
                             "최대 8글자까지 입력할 수 있어요" :
                             nicknameInputState == "duplicated" ?
                             "중복된 닉네임이 있어요" :
@@ -322,7 +322,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
     );
   }
 
-  void goToNextScreen(WidgetRef ref) {
+  void validateConditionAndGoToSecondScreen(WidgetRef ref) {
     // 닉네임 유효성 검증
     String verifyNicknameInputResult = ref.read(nicknameInputProvider.notifier).validate(
       nicknameInputController.text

@@ -47,9 +47,12 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
         },
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
-        backOnTap: () => context.pop(),
+        backOnTap: () {
+          fnInitRegisterProviders(ref, "2");
+          context.pop();
+        },
         text: "2 / 3",
-        nextOnTap: () => goToNextScreen(ref),
+        nextOnTap: () => validateConditionAndGoToThirdScreen(ref),
       ),
       child: WillPopScope(
         onWillPop: () async {
@@ -350,7 +353,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
     );
   }
 
-  void goToNextScreen(WidgetRef ref) {
+  void validateConditionAndGoToThirdScreen(WidgetRef ref) {
     // 유효성 검증
     String verifyEmailInputResult = ref.watch(emailInputProvider.notifier).validate(
       emailInputController.text
