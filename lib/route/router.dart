@@ -1,3 +1,4 @@
+import 'package:amitamin_frontend/screens/home/home_fatigue_screen.dart';
 import 'package:amitamin_frontend/screens/screens.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,12 @@ final router = GoRouter(
         GoRoute(
           path: '/home_screen',
           builder: (context, state) => HomeScreen(),
+          routes: [
+            GoRoute(
+              path: 'home_fatigue_screen',
+              builder: (context, state) => HomeFatigueScreen(),
+            )
+          ]
         ),
         GoRoute(
           path: '/analysis_screen',
