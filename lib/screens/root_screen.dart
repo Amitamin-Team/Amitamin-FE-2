@@ -27,11 +27,11 @@ class RootScreen extends ConsumerWidget {
           ref.read(bottomNavProvider.notifier).changeBottomNavIndex(index);
           // 화면 이동
           if(index == 0) {
-            context.go('/home_screen');
+            context.goNamed('home_screen');
           } else if(index == 1) {
-            context.go('/analysis_screen');
+            context.goNamed('analysis_screen');
           } else if(index == 2) {
-            context.go('/my_screen');
+            context.goNamed('my_screen');
           }
         },
         items: [

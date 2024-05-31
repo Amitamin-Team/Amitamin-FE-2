@@ -1,0 +1,1 @@
+export 'fatigue_score_provider.dart';

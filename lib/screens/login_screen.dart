@@ -115,13 +115,13 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     
                     if(context.mounted) {
                       if(result) {
-                        context.go('/home_screen');
+                        context.goNamed('home_screen');
                       } else {
                         showAlertDialog(context: context, middleText: "이메일/비밀번호를 다시 확인해주세요.");
                       } 
                     }*/
 
-                    context.go('/home_screen');
+                    context.goNamed('home_screen');
                   },
                   text: '로그인',
                   disabled: !loginButtonState,

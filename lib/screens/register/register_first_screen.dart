@@ -1,5 +1,4 @@
 import 'package:amitamin_frontend/data/data.dart';
-import 'package:amitamin_frontend/data/provider/register_providers/birth_input_provider.dart';
 import 'package:amitamin_frontend/screens/register/utils/utils.dart';
 import 'package:amitamin_frontend/screens/register/widget/widget.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
         actionOnPressed: () {
           showConfirmDialog(
             context: context, 
-            middleText: Sentence.registerExitQuestion, 
+            middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () {
               fnInitRegisterProviders(ref, "all");
               context.replace('/login_screen');
@@ -60,7 +59,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
         onWillPop: () async {
           showConfirmDialog(
             context: context, 
-            middleText: Sentence.registerExitQuestion, 
+            middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () {
               fnInitRegisterProviders(ref, "1");
               context.replace('/login_screen');
@@ -80,7 +79,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                     height: 12,
                   ),
                   Text(
-                    "입력한 정보는 앱 이용을 위해서만 활용됩니다.",
+                    Sentence.REGISGER_GUIDE_1,
                     style: TextStyle(
                       fontFamily: CustomText.body7.fontFamily,
                       fontWeight: CustomText.body7.fontWeight,

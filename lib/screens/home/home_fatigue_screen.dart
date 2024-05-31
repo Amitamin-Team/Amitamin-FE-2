@@ -1,3 +1,4 @@
+import 'package:amitamin_frontend/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,23 +16,30 @@ class HomeFatigueScreen extends ConsumerStatefulWidget {
 class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final fatigueScoreState = ref.watch(fatigueScoreProvider);
+
+    final sliderWidth = MediaQuery.of(context).size.width;
+
+    // TODO : 점수를 체크하지 않았으면 화면 진입, slider 활성화
+    // TODO : 점수가 체크되어 있으면 화면 진입, 점수 세팅, slider 비활성화
 
     return DefaultLayout(
       appBar: DefaultAppBar(
         title: '피로도 체크하기',
         leadingDisable: false,
-        leadingOnPressed: () {
-          //ref.watch(updateFatigueScoreProvider.notifier).setScore(0);
+        leadingOnPressed: () async {
+          await fnInvalidate(ref, fatigueScoreProvider);
+          if (!context.mounted) return;
           context.pop();
         },
         actionDisable: true,
       ),
       child: WillPopScope(
         onWillPop: () async {
-          //ref.watch(updateFatigueScoreProvider.notifier).setScore(0);
+          await fnInvalidate(ref, fatigueScoreProvider);
+          if (!context.mounted) return false;
           context.pop();
+          
           return false;
         },
         child: SafeArea(
@@ -75,14 +83,13 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              ProjectVariable.fatigueScoreMap[0]!,
+                              ProjectConstant.FATIGUE_SCORE_MAP[0]!,
                               width: 60,
                               height: 60,
                             ),
                             const SizedBox(height: 8,),
                             Text(
-                              // '${(score/(width-60)*10).round()}점',
-                              '0점',
+                              '${(fatigueScoreState/(sliderWidth-60)*10).round()}점',
                               style: CustomText.headLine4,
                             ),
                             const SizedBox(height: 8,),
@@ -111,7 +118,7 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                               for(int i=0;i<10;i++)
                                 Container(
                                   height: 16,
-                                  width: (width - 60) / 10,
+                                  width: (sliderWidth - 60) / 10,
                                   margin: EdgeInsets.only(top: 9, right: (i < 9) ? 2.0 : 0.0),
                                   decoration: BoxDecoration(
                                     borderRadius: i == 0 ?
@@ -125,14 +132,15 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                             ],
                           ),
                         ),
-                        /* Padding(
+                        Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Row(
                             children: [
                               for(int i=0;i<10;i++)
                                 Container(
                                   height: 16,
-                                  width: 10, //(score - ((width - 60) / 10) * i).clamp(0, ((width - 60) / 10)),
+                                  // TODO : 점수 체크 여부에 따라 slider on/off
+                                  width: (fatigueScoreState - ((sliderWidth - 60) / 10) * i).clamp(0, ((sliderWidth - 60) / 10)),
                                   margin: EdgeInsets.only(top: 9, right: (i < 9) ? 2.0 : 0.0),
                                   decoration: BoxDecoration(
                                     borderRadius: i == 0 ?
@@ -150,15 +158,16 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                                 ),
                             ],
                           ),
-                        ),*/
+                        ),
                         Positioned(
-                          left: 0, //score - 5,
+                          // 점수 체크 여부에 따라 pointer on/off
+                          left: fatigueScoreState - 5,
                           top: 0,
                           child: GestureDetector(
                             onPanUpdate: (details) {
-                              /*ref.watch(updateFatigueScoreProvider.notifier)
-                                 .setScore((details.delta.dx + score)
-                                 .clamp(0, width-59));*/
+                              ref.read(fatigueScoreProvider.notifier)
+                                 .setScore((details.delta.dx + fatigueScoreState)
+                                 .clamp(0, sliderWidth-59));
                             },
                             child: SvgPicture.asset(
                               'assets/icons/home/slider_button.svg',
