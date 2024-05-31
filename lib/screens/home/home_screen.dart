@@ -24,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
                 InkWell(
                   onTap: () {
                     // TODO : 화면이동
-                    context.go('/home_screen/home_fatigue_screen');
+                    context.goNamed('home_fatigue_screen');
                   },
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,

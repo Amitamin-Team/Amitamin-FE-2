@@ -1,6 +1,5 @@
 import 'package:amitamin_frontend/common/common.dart';
 import 'package:amitamin_frontend/data/provider/provider.dart';
-import 'package:amitamin_frontend/data/provider/register_providers/birth_input_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

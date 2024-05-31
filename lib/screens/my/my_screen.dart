@@ -18,7 +18,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: CustomColor.extraLightGray,
+      color: CustomColor.backGround,
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -67,7 +67,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
                           const Spacer(),
                           GestureDetector(
                             onTap: () {
-                              context.go('/my/profileSetting');
+                              context.goNamed('my_profile_screen');
                             },
                             child: Text(
                               '프로필 편집',

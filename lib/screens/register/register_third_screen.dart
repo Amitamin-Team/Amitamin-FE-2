@@ -34,7 +34,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         actionOnPressed: () {
           showConfirmDialog(
             context: context, 
-            middleText: Sentence.registerExitQuestion, 
+            middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () {
               fnInitRegisterProviders(ref, "all");
               context.replace('/login_screen');
@@ -55,7 +55,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         onWillPop: () async {
           showConfirmDialog(
             context: context, 
-            middleText: Sentence.registerExitQuestion, 
+            middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () {
               fnInitRegisterProviders(ref, "all");
               context.replace('/login_screen');
@@ -74,7 +74,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     height: 12,
                   ),
                   const Text(
-                    "아미타민을 통해 무엇을 얻고 싶으신가요?",
+                    Sentence.REGISGER_SURVEY,
                     style: CustomText.body3,
                   ),
                   const SizedBox(

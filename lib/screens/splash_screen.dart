@@ -31,17 +31,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     // 자동로그인 설정이 없을 경우 로그인 화면으로 이동
     if(autoLoginYN == null || autoLoginYN == 'N') {
-      context.go('/login_screen');
+      context.goNamed('login_screen');
     } else {
       final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
       final refreshToken = await storage.read(key: ProjectConstant.REFRESH_TOKEN);
 
       // 토큰이 없을 경우 로그인 화면으로 이동
       if(accessToken == null && refreshToken == null) {
-        context.go('/login_screen');
+        context.goNamed('login_screen');
       } else {
         // 토큰이 있을 경우 홈 화면으로 이동
-        // context.go('/home');
+        // context.goNamed('home_screen');
       }
     }
   }

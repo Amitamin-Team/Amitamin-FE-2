@@ -38,7 +38,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
         actionOnPressed: () {
           showConfirmDialog(
             context: context, 
-            middleText: Sentence.registerExitQuestion, 
+            middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () {
               fnInitRegisterProviders(ref, "all");
               context.replace('/login_screen');
@@ -58,7 +58,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
         onWillPop: () async {
           showConfirmDialog(
             context: context, 
-            middleText: Sentence.registerExitQuestion, 
+            middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () {
               fnInitRegisterProviders(ref, "all");
               context.replace('/login_screen');
@@ -78,7 +78,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                   ),
                   // TODO : 가로길이 넘어갈 경우 대비
                   Text(
-                    "나만의 건강정보들을 안전하게 관리하기 위해 계정을 생성해주세요.",
+                    Sentence.REGISGER_GUIDE_2,
                     style: TextStyle(
                       fontFamily: CustomText.body7.fontFamily,
                       fontWeight: CustomText.body7.fontWeight,
