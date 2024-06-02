@@ -91,7 +91,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
               ),
               MySubMenuContainer(
                 menuName: "나의 설문지 내역",
-                svgPath: "assets/icons/gray_arrow_next.svg",
+                svgPath: "assets/icons/shortcut/gray_arrow_next.svg",
                 svgFlag: true,
                 voidCallback: () {},
               ),
@@ -128,7 +128,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
               ),
               MySubMenuContainer(
                 menuName: "튜토리얼",
-                svgPath: "assets/icons/gray_arrow_next.svg",
+                svgPath: "assets/icons/shortcut/gray_arrow_next.svg",
                 svgFlag: true,
                 voidCallback: () {},
               ),
@@ -137,7 +137,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
               ),
               MySubMenuContainer(
                 menuName: "문의하기",
-                svgPath: "assets/icons/gray_arrow_link.svg",
+                svgPath: "assets/icons/shortcut/gray_arrow_upward_right.svg",
                 svgFlag: true,
                 voidCallback: () {},
               ),
@@ -164,7 +164,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
               ),
               MySubMenuContainer(
                 menuName: "이용약관",
-                svgPath: "assets/icons/gray_arrow_link.svg",
+                svgPath: "assets/icons/shortcut/gray_arrow_upward_right.svg",
                 svgFlag: true,
                 voidCallback: () {},
               ),

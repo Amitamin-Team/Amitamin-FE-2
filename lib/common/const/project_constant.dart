@@ -19,57 +19,57 @@ class ProjectConstant {
   static const Map<int, Map<String, dynamic>> FATIGUE_SCORE_MAP = {
     0 : {
       'score' : 0,
-      'path' : 'assets/icons/state=0.svg',
+      'path' : 'assets/icons/emoji/state=0.svg',
       'comment' : '',
     },
     1 : {
       'score' : 1,
-      'path' : 'assets/icons/state=1.svg',
+      'path' : 'assets/icons/emoji/state=1.svg',
       'comment' : '',
     },
     2 : {
       'score' : 2,
-      'path' : 'assets/icons/state=2.svg',
+      'path' : 'assets/icons/emoji/state=2.svg',
       'comment' : '',
     },
     3 : {
       'score' : 3,
-      'path' : 'assets/icons/state=3.svg',
+      'path' : 'assets/icons/emoji/state=3.svg',
       'comment' : '',
     },
     4 : {
       'score' : 4,
-      'path' : 'assets/icons/state=4.svg',
+      'path' : 'assets/icons/emoji/state=4.svg',
       'comment' : '',
     },
     5 : {
       'score' : 5,
-      'path' : 'assets/icons/state=5.svg',
+      'path' : 'assets/icons/emoji/state=5.svg',
       'comment' : '',
     },
     6 : {
       'score' : 6,
-      'path' : 'assets/icons/state=6.svg',
+      'path' : 'assets/icons/emoji/state=6.svg',
       'comment' : '',
     },
     7 : {
       'score' : 7,
-      'path' : 'assets/icons/state=7.svg',
+      'path' : 'assets/icons/emoji/state=7.svg',
       'comment' : '',
     },
     8 : {
       'score' : 8,
-      'path' : 'assets/icons/state=8.svg',
+      'path' : 'assets/icons/emoji/state=8.svg',
       'comment' : '',
     },
     9 : {
       'score' : 9,
-      'path' : 'assets/icons/state=9.svg',
+      'path' : 'assets/icons/emoji/state=9.svg',
       'comment' : '',
     },
     10 : {
       'score' : 10,
-      'path' : 'assets/icons/state=10.svg',
+      'path' : 'assets/icons/emoji/state=10.svg',
       'comment' : '',
     },
   };

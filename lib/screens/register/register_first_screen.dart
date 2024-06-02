@@ -268,11 +268,11 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                             ref.read(RegisterScreenProvider.privateRadioProvider.notifier).set("Y");
                         },
                         child: privateRadioState == "Y" ? SvgPicture.asset(
-                          "assets/icons/radio_checked.svg",
+                          "assets/icons/check/radio_checked.svg",
                           width: 24,
                           height: 24,
                         ) : SvgPicture.asset(
-                          "assets/icons/radio_unchecked.svg",
+                          "assets/icons/check/radio_unchecked.svg",
                           width: 24,
                           height: 24,
                         ),

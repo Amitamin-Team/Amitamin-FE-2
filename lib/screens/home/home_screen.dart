@@ -37,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           // TODO : 피로도 점수에 따라 아이콘 바꾸기
                           SvgPicture.asset(
-                            'assets/icons/state=0.svg',
+                            'assets/icons/emoji/state=0.svg',
                             width: 44,
                             height: 44,
                           ),
@@ -93,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
                           // TODO : 목표 입력 화면으로 이동
                         },
                         child: SvgPicture.asset(
-                          'assets/icons/home/add.svg',
+                          'assets/icons/system/add.svg',
                           width: 20,
                           height: 20,
                         ),
@@ -177,7 +177,7 @@ class HomeScreenAppBar extends ConsumerWidget implements PreferredSizeWidget {
               ? IconButton(
             onPressed: () {},
             icon: SvgPicture.asset(
-              'assets/icons/home/alarm_exist.svg',
+              'assets/icons/alarm/alarm_exist.svg',
               width: 24,
               height: 24,
             ),
@@ -185,7 +185,7 @@ class HomeScreenAppBar extends ConsumerWidget implements PreferredSizeWidget {
               : IconButton(
             onPressed: () {},
             icon: SvgPicture.asset(
-              'assets/icons/home/alarm_empty.svg',
+              'assets/icons/alarm/alarm_empty.svg',
               width: 24,
               height: 24,
             ),
