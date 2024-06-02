@@ -1,5 +1,4 @@
 import 'package:amitamin_frontend/data/data.dart';
-import 'package:amitamin_frontend/screens/register/utils/utils.dart';
 import 'package:amitamin_frontend/screens/register/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,11 +24,11 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final nicknameButtonState = ref.watch(nicknameButtonProvider);
-    final nicknameInputState = ref.watch(nicknameInputProvider);
-    final genderButtonState = ref.watch(genderButtonProvider);
-    final birthInputState = ref.watch(birthInputProvider);
-    final privateRadioState = ref.watch(privateRadioProvider);
+    final nicknameButtonState = ref.watch(RegisterScreenProvider.nicknameButtonProvider);
+    final nicknameInputState = ref.watch(RegisterScreenProvider.nicknameInputProvider);
+    final genderButtonState = ref.watch(RegisterScreenProvider.genderButtonProvider);
+    final birthInputState = ref.watch(RegisterScreenProvider.birthInputProvider);
+    final privateRadioState = ref.watch(RegisterScreenProvider.privateRadioProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -40,28 +39,31 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
           showConfirmDialog(
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
-            onConfirm: () {
-              fnInitRegisterProviders(ref, "all");
+            onConfirm: () async {
+              await RegisterScreenProvider.fnInvalidateAll(ref);
+              if(!context.mounted) return;
               context.replace('/login_screen');
             }
           );
         },
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
-        backOnTap: () {
-          fnInitRegisterProviders(ref, "all");
+        backOnTap: () async {
+          await RegisterScreenProvider.fnInvalidateAll(ref);
+          if(!context.mounted) return;
           context.replace('/login_screen');
         },
         text: "1 / 3",
-        nextOnTap: () => validateConditionAndGoToSecondScreen(ref),
+        nextOnTap: () => RegisterScreenProvider.fnGoToNext(ref, context, 1, nicknameInput: nicknameInputController.text, birthInput: birthInputController.text),
       ),
       child: WillPopScope(
         onWillPop: () async {
           showConfirmDialog(
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
-            onConfirm: () {
-              fnInitRegisterProviders(ref, "1");
+            onConfirm: () async {
+              await RegisterScreenProvider.fnInvalidateFirstScreen(ref);
+              if(!context.mounted) return;
               context.replace('/login_screen');
             }
           );
@@ -104,16 +106,19 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                         child: OutlinedInput(
                           controller: nicknameInputController,
                           onChanged: (String nickname) {
-                            ref.read(nicknameButtonProvider.notifier).activate(
+                            ref.read(RegisterScreenProvider.nicknameButtonProvider.notifier).activate(
                               nicknameInputController.text
                             );
+                            ref.read(RegisterScreenProvider.nicknameInputProvider.notifier).set(
+                              RegisterScreenProvider.fnInputValidate(nicknameInputController.text, ProjectConstant.REG_NICKNAME_TYPE)
+                            );
                           },
-                          hintText: '닉네임을 입력하세요',
+                          hintText: Sentence.NICKNAME_HINT_TEXT,
                           keyboardType: TextInputType.text,
-                          enabledBorder: ref.read(nicknameInputProvider.notifier).getValidBoolState() ? 
+                          enabledBorder: !RegisterScreenProvider.fnGetInputBoolState(nicknameInputState) ? 
                                             CustomColor.error :
                                             CustomColor.lightGray,
-                          focusedBorder: ref.read(nicknameInputProvider.notifier).getValidBoolState() ? 
+                          focusedBorder: !RegisterScreenProvider.fnGetInputBoolState(nicknameInputState) ?
                                             CustomColor.error :
                                             CustomColor.primaryBlue100,
                         ),
@@ -123,12 +128,11 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: BlueTextButton(
                           onPressed: () {
-                            // 유효성 검증
-                            String verifyNicknameInputResult = ref.read(nicknameInputProvider.notifier).validate(
-                              nicknameInputController.text
+                            ref.read(RegisterScreenProvider.nicknameInputProvider.notifier).set(
+                              RegisterScreenProvider.fnInputValidate(nicknameInputController.text, ProjectConstant.REG_NICKNAME_TYPE)
                             );
 
-                            if(verifyNicknameInputResult == "pass_valid") {
+                            if(nicknameInputState == ProjectConstant.INPUT_CODE_MAP['0009']!['value']!) {
                               // TODO : 중복확인 로직 추가
                             }
                           },
@@ -139,19 +143,19 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                     ],
                   ),
                   Visibility(
-                    visible: ref.read(nicknameInputProvider.notifier).getValidBoolState(),
+                    visible: !RegisterScreenProvider.fnGetInputBoolState(nicknameInputState),
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          nicknameInputState == "no_data" ?
-                            "닉네임을 입력해주세요" :
-                            nicknameInputState == "invalid_length" ?
-                            "최대 8글자까지 입력할 수 있어요" :
-                            nicknameInputState == "duplicated" ?
-                            "중복된 닉네임이 있어요" :
+                            nicknameInputState == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! ?
+                            Sentence.NICKNAME_INPUT_EMPTY_ERR :
+                            nicknameInputState == ProjectConstant.INPUT_CODE_MAP['0002']!['value']! ?
+                            Sentence.NICKNAME_INPUT_LENGTH_ERR :
+                            nicknameInputState == ProjectConstant.INPUT_CODE_MAP['0005']!['value']! ?
+                            Sentence.NICKNAME_INPUT_DUPLICATE_ERR :
                             "",
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
@@ -179,7 +183,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                         width: MediaQuery.of(context).size.width * 0.45,
                         child: BlueTextButton(
                           onPressed: () {
-                            ref.read(genderButtonProvider.notifier).set("F");
+                            ref.read(RegisterScreenProvider.genderButtonProvider.notifier).set("F");
                           },
                           text: "여성",
                           disabled: genderButtonState != "F" ? true : false,
@@ -190,7 +194,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                         width: MediaQuery.of(context).size.width * 0.45,
                         child: BlueTextButton(
                           onPressed: () {
-                            ref.read(genderButtonProvider.notifier).set("M");
+                            ref.read(RegisterScreenProvider.genderButtonProvider.notifier).set("M");
                           },
                           text: "남성",
                           disabled: genderButtonState != "M" ? true : false,
@@ -210,33 +214,37 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                   ),
                   OutlinedInput(
                     controller: birthInputController,
-                    onChanged: (String birth) {},
-                    hintText: '생년월일을 입력하세요 (예: 1900-01-01)',
+                    onChanged: (String birth) {
+                      ref.read(RegisterScreenProvider.birthInputProvider.notifier).set(
+                        RegisterScreenProvider.fnInputValidate(birthInputController.text, ProjectConstant.REG_BIRTH_TYPE)
+                      );
+                    },
+                    hintText: Sentence.BIRTH_HINT_TEXT,
                     keyboardType: TextInputType.number,
                     inputFormatter: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(8),
                       BirthdayInputFormatter(),
                     ],
-                    enabledBorder: ref.read(birthInputProvider.notifier).getValidBoolState() ? 
+                    enabledBorder: !RegisterScreenProvider.fnGetInputBoolState(birthInputState) ? 
                                       CustomColor.error :
                                       CustomColor.lightGray,
-                    focusedBorder: ref.read(birthInputProvider.notifier).getValidBoolState() ? 
+                    focusedBorder: !RegisterScreenProvider.fnGetInputBoolState(birthInputState) ? 
                                       CustomColor.error :
                                       CustomColor.primaryBlue100,
                   ),
                   Visibility(
-                    visible: ref.read(birthInputProvider.notifier).getValidBoolState(),
+                    visible: !RegisterScreenProvider.fnGetInputBoolState(birthInputState),
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          birthInputState == "no_data" ?
-                            "생년월일을 입력해주세요" :
-                            birthInputState == "invalid_length" ?
-                            "생년월일을 정확히 입력해주세요" :
+                            birthInputState == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! ?
+                            Sentence.BIRTH_INPUT_EMPTY_ERR :
+                            birthInputState == ProjectConstant.INPUT_CODE_MAP['0002']!['value']! ?
+                            Sentence.BIRTH_INPUT_LENGTH_ERR :
                             "",
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
@@ -255,10 +263,11 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          // radio button toggle 수행
-                          ref.read(privateRadioProvider.notifier).toggle();
+                          privateRadioState == "Y" ?
+                            ref.read(RegisterScreenProvider.privateRadioProvider.notifier).set("N") :
+                            ref.read(RegisterScreenProvider.privateRadioProvider.notifier).set("Y");
                         },
-                        child: privateRadioState ? SvgPicture.asset(
+                        child: privateRadioState == "Y" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
                           width: 24,
                           height: 24,
@@ -319,30 +328,5 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
         ),
       ),
     );
-  }
-
-  void validateConditionAndGoToSecondScreen(WidgetRef ref) {
-    // 닉네임 유효성 검증
-    bool nicknameResult = validateNickname(ref, context, nicknameInputController.text);
-
-    if(!nicknameResult) return;
-
-    // 성별 유효성 검증
-    bool sexResult = validateSex(ref, context, ref.read(genderButtonProvider.notifier).get());
-
-    if(!sexResult) return;
-
-    // 생년월일 유효성 검증
-    bool birthResult = validateBirth(ref, context, birthInputController.text);
-
-    if(!birthResult) return;
-
-    // 개인정보 처리 방침 동의 검증
-    bool privateYnResult = validatePrivateYn(ref, context, ref.read(privateRadioProvider.notifier).get());
-
-    if(!privateYnResult) return;
-
-    // 회원가입 두 번째 페이지로 이동
-    context.goNamed('register_second_screen');
   }
 }

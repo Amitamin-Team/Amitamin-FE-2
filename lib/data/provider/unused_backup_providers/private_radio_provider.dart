@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PrivateRadioState extends StateNotifier<bool> {
+/*class PrivateRadioState extends StateNotifier<bool> {
   PrivateRadioState() : super(false);
 
   void toggle() {
@@ -12,4 +12,4 @@ class PrivateRadioState extends StateNotifier<bool> {
   }
 }
 
-final privateRadioProvider = StateNotifierProvider<PrivateRadioState, bool>((ref) => PrivateRadioState());
+final privateRadioProvider = StateNotifierProvider<PrivateRadioState, bool>((ref) => PrivateRadioState());*/

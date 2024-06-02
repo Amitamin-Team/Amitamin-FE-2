@@ -8,7 +8,6 @@ import 'register_navigationbar.dart';
 
 import 'package:amitamin_frontend/common/common.dart';
 
-import 'utils/utils.dart';
 import 'widget/widget.dart';
 
 class RegisterThirdScreen extends ConsumerStatefulWidget {
@@ -24,7 +23,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final surveyRadioState = ref.watch(surveyRadioProvider);
+    final surveyRadioState = ref.watch(RegisterScreenProvider.surveyRadioProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -35,19 +34,23 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
           showConfirmDialog(
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
-            onConfirm: () {
-              fnInitRegisterProviders(ref, "all");
+            onConfirm: () async {
+              await RegisterScreenProvider.fnInvalidateAll(ref);
+              if(!context.mounted) return;
               context.replace('/login_screen');
             }
           );
         },
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
-        backOnTap: () => context.pop(),
+        backOnTap: () async {
+          await RegisterScreenProvider.fnInvalidateThirdScreen(ref);
+          if(!context.mounted) return;
+          context.pop();
+        },
         text: "3 / 3",
         nextOnTap: () async {
-          // await register(ref);
-          context.replace('/login_screen');
+          await RegisterScreenProvider.fnGoToNext(ref, context, 3, etcInput: etcInputController.text);
         },
         nextText: "완료",
       ),
@@ -56,8 +59,9 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
           showConfirmDialog(
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
-            onConfirm: () {
-              fnInitRegisterProviders(ref, "all");
+            onConfirm: () async {
+              await RegisterScreenProvider.fnInvalidateAll(ref);
+              if(!context.mounted) return;
               context.replace('/login_screen');
             }
           );
@@ -84,7 +88,8 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(surveyRadioProvider.notifier).set("1");
+                          ref.read(RegisterScreenProvider.surveyRadioProvider.notifier).set("1");
+                          etcInputController.text = "";
                         },
                         child: surveyRadioState == "1" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
@@ -110,7 +115,8 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(surveyRadioProvider.notifier).set("2");
+                          ref.read(RegisterScreenProvider.surveyRadioProvider.notifier).set("2");
+                          etcInputController.text = "";
                         },
                         child: surveyRadioState == "2" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
@@ -136,7 +142,8 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(surveyRadioProvider.notifier).set("3");
+                          ref.read(RegisterScreenProvider.surveyRadioProvider.notifier).set("3");
+                          etcInputController.text = "";
                         },
                         child: surveyRadioState == "3" ? SvgPicture.asset(
                           "assets/icons/radio_checked.svg",
@@ -164,7 +171,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              ref.read(surveyRadioProvider.notifier).set("4");
+                              ref.read(RegisterScreenProvider.surveyRadioProvider.notifier).set("4");
                             },
                             child: surveyRadioState == "4" ? SvgPicture.asset(
                               "assets/icons/radio_checked.svg",
@@ -199,7 +206,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                             child: OutlinedEtcInput(
                               controller: etcInputController,
                               onChanged: (String pwd) {},
-                              hintText: '내용을 입력해주세요',
+                              hintText: Sentence.ETC_HINT_TEXT,
                               keyboardType: TextInputType.text,
                             ),
                           ),
@@ -221,51 +228,5 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> register(WidgetRef ref) async {
-    bool surveyResult = validateSurvey(ref, context, 
-                                       ref.read(surveyRadioProvider.notifier).get(), etcInputController.text);
-
-    if(!surveyResult) return;
-
-    /* String survey_summary = ref.read(surveyRadioProvider.notifier).get();
-
-    if(survey_summary == "") {
-      showAlertDialog(context: context, middleText: "가입설문 내용을 선택해주세요.");
-      return;
-    } else if (survey_summary == "4") {
-      if(etcInputController.text.isEmpty) {
-        showAlertDialog(context: context, middleText: "기타의 내용을 입력해주세요.");
-        return;
-      }
-      survey_summary += ", ${etcInputController.text}";
-      ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
-    } else {
-      ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
-    } */
-
-    final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
-      requestRegisterModel: ref.read(registerModelProvider.notifier).get()
-    );
-
-    if(response.response_code == 200) {
-      fnInitRegisterProviders(ref, "all");
-
-      if(context.mounted) {
-        context.replace('/login_screen');
-      }
-    } else {
-      if(context.mounted) {
-        showConfirmDialog(
-          context: context, 
-          middleText: "회원가입에 실패했습니다.\n로그인 화면으로 이동합니다.", 
-          onConfirm: () {
-            fnInitRegisterProviders(ref, "all");
-            context.replace('/login_screen');
-          }
-        );
-      }
-    }
   }
 }
