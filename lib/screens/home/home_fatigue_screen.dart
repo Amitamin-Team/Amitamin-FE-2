@@ -20,6 +20,8 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
 
     final sliderWidth = MediaQuery.of(context).size.width;
 
+    int score = (fatigueScoreState/(sliderWidth-60)*10).round();
+
     // TODO : 점수를 체크하지 않았으면 화면 진입, slider 활성화
     // TODO : 점수가 체크되어 있으면 화면 진입, 점수 세팅, slider 비활성화
 
@@ -83,13 +85,14 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              ProjectConstant.FATIGUE_SCORE_MAP[0]!,
+                              ProjectConstant.FATIGUE_SCORE_MAP[score]!['path']!,
                               width: 60,
                               height: 60,
                             ),
                             const SizedBox(height: 8,),
                             Text(
-                              '${(fatigueScoreState/(sliderWidth-60)*10).round()}점',
+                              // '${(fatigueScoreState/(sliderWidth-60)*10).round()}점',
+                              '${ProjectConstant.FATIGUE_SCORE_MAP[score]!['score']!}점',
                               style: CustomText.headLine4,
                             ),
                             const SizedBox(height: 8,),
