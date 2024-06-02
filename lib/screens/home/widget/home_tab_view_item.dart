@@ -22,7 +22,7 @@ class HomeTabViewItem extends ConsumerWidget {
                 [
                   const SizedBox(height: 108,),
                   SvgPicture.asset(
-                    'assets/icons/home/goal_none.svg',
+                    'assets/icons/system/ballon.svg',
                     width: 36,
                     height: 36,
                   ),

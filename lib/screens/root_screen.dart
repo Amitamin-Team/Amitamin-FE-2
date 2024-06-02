@@ -38,12 +38,12 @@ class RootScreen extends ConsumerWidget {
           BottomNavigationBarItem(
             label: '홈',
             icon: SvgPicture.asset(
-              'assets/icons/home_icon_outlined.svg',
+              'assets/icons/system/home_icon_outlined.svg',
               width: 24,
               height: 24,
             ),
             activeIcon: SvgPicture.asset(
-              'assets/icons/home_icon_filled.svg',
+              'assets/icons/system/home_icon_filled.svg',
               width: 24,
               height: 24,
             ),
@@ -51,12 +51,12 @@ class RootScreen extends ConsumerWidget {
           BottomNavigationBarItem(
             label: '분석',
             icon: SvgPicture.asset(
-              'assets/icons/analysis_icon_outlined.svg',
+              'assets/icons/system/analysis_icon_outlined.svg',
               width: 24,
               height: 24,
             ),
             activeIcon: SvgPicture.asset(
-              'assets/icons/analysis_icon_filled.svg',
+              'assets/icons/system/analysis_icon_filled.svg',
               width: 24,
               height: 24,
             ),
@@ -64,12 +64,12 @@ class RootScreen extends ConsumerWidget {
           BottomNavigationBarItem(
             label: '마이페이지',
             icon: SvgPicture.asset(
-              'assets/icons/my_icon_outlined.svg',
+              'assets/icons/system/my_icon_outlined.svg',
               width: 24,
               height: 24,
             ),
             activeIcon: SvgPicture.asset(
-              'assets/icons/my_icon_filled.svg',
+              'assets/icons/system/my_icon_filled.svg',
               width: 24,
               height: 24,
             ),

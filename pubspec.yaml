@@ -74,7 +74,12 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/icons/home/
+    - assets/icons/alarm/
+    - assets/icons/check/
+    - assets/icons/clear/
+    - assets/icons/emoji/
+    - assets/icons/shortcut/
+    - assets/icons/system/
 
   fonts:
     - family: Pretendard

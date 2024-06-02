@@ -52,7 +52,7 @@ class MyProfileScreenState extends ConsumerState<MyProfileScreen> {
                       ),
                       const SizedBox(width: 2,),
                       SvgPicture.asset(
-                        "assets/icons/gray_arrow_next.svg",
+                        "assets/icons/shortcut/gray_arrow_next.svg",
                         width: 24,
                         height: 24,
                       ),
@@ -78,7 +78,7 @@ class MyProfileScreenState extends ConsumerState<MyProfileScreen> {
                       ),
                       const SizedBox(width: 2,),
                       SvgPicture.asset(
-                        "assets/icons/gray_arrow_next.svg",
+                        "assets/icons/shortcut/gray_arrow_next.svg",
                         width: 24,
                         height: 24,
                       ),
@@ -104,7 +104,7 @@ class MyProfileScreenState extends ConsumerState<MyProfileScreen> {
                       ),
                       const SizedBox(width: 2,),
                       SvgPicture.asset(
-                        "assets/icons/gray_arrow_next.svg",
+                        "assets/icons/shortcut/gray_arrow_next.svg",
                         width: 24,
                         height: 24,
                       ),

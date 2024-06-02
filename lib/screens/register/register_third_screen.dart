@@ -92,11 +92,11 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                           etcInputController.text = "";
                         },
                         child: surveyRadioState == "1" ? SvgPicture.asset(
-                          "assets/icons/radio_checked.svg",
+                          "assets/icons/check/radio_checked.svg",
                           width: 24,
                           height: 24,
                         ) : SvgPicture.asset(
-                          "assets/icons/radio_unchecked.svg",
+                          "assets/icons/check/radio_unchecked.svg",
                           width: 24,
                           height: 24,
                         ),
@@ -119,11 +119,11 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                           etcInputController.text = "";
                         },
                         child: surveyRadioState == "2" ? SvgPicture.asset(
-                          "assets/icons/radio_checked.svg",
+                          "assets/icons/check/radio_checked.svg",
                           width: 24,
                           height: 24,
                         ) : SvgPicture.asset(
-                          "assets/icons/radio_unchecked.svg",
+                          "assets/icons/check/radio_unchecked.svg",
                           width: 24,
                           height: 24,
                         ),
@@ -146,11 +146,11 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                           etcInputController.text = "";
                         },
                         child: surveyRadioState == "3" ? SvgPicture.asset(
-                          "assets/icons/radio_checked.svg",
+                          "assets/icons/check/radio_checked.svg",
                           width: 24,
                           height: 24,
                         ) : SvgPicture.asset(
-                          "assets/icons/radio_unchecked.svg",
+                          "assets/icons/check/radio_unchecked.svg",
                           width: 24,
                           height: 24,
                         ),
@@ -174,11 +174,11 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                               ref.read(RegisterScreenProvider.surveyRadioProvider.notifier).set("4");
                             },
                             child: surveyRadioState == "4" ? SvgPicture.asset(
-                              "assets/icons/radio_checked.svg",
+                              "assets/icons/check/radio_checked.svg",
                               width: 24,
                               height: 24,
                             ) : SvgPicture.asset(
-                              "assets/icons/radio_unchecked.svg",
+                              "assets/icons/check/radio_unchecked.svg",
                               width: 24,
                               height: 24,
                             ),

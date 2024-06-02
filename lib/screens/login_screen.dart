@@ -80,11 +80,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         ref.read(autoLoginRadioProvider.notifier).toggle();
                       },
                       child: autoLoginRadioState ? SvgPicture.asset(
-                        "assets/icons/radio_checked.svg",
+                        "assets/icons/check/radio_checked.svg",
                         width: 24,
                         height: 24,
                       ) : SvgPicture.asset(
-                        "assets/icons/radio_unchecked.svg",
+                        "assets/icons/check/radio_unchecked.svg",
                         width: 24,
                         height: 24,
                       ),

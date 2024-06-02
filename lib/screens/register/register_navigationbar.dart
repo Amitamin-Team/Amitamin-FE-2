@@ -43,7 +43,7 @@ class RegisterBottomNavigationBar extends StatelessWidget {
               child: Row(
                 children: [
                   SvgPicture.asset(
-                    "assets/icons/blue_arrow_back.svg",
+                    "assets/icons/shortcut/blue_arrow_back.svg",
                     width: 24,
                     height: 24,
                   ),
@@ -87,7 +87,7 @@ class RegisterBottomNavigationBar extends StatelessWidget {
                     ),
                   ),
                   SvgPicture.asset(
-                    "assets/icons/blue_arrow_next.svg",
+                    "assets/icons/shortcut/blue_arrow_next.svg",
                     width: 24,
                     height: 24,
                   ),

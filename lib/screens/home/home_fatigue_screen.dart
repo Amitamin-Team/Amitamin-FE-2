@@ -173,7 +173,7 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                                  .clamp(0, sliderWidth-59));
                             },
                             child: SvgPicture.asset(
-                              'assets/icons/home/slider_button.svg',
+                              'assets/icons/system/slider_control_button.svg',
                             ),
                           )
                         ),
@@ -216,34 +216,5 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
         ),
       ),
     );
-  }
-
-  String getFatigueState(int score) {
-     switch(score) {
-       case 0:
-         return 'assets/icons/state/state=0.svg';
-       case 1:
-         return 'assets/icons/state/state=1.svg';
-       case 2:
-         return 'assets/icons/state/state=2.svg';
-       case 3:
-         return 'assets/icons/state/state=3.svg';
-       case 4:
-         return 'assets/icons/state/state=4.svg';
-       case 5:
-         return 'assets/icons/state/state=5.svg';
-       case 6:
-         return 'assets/icons/state/state=6.svg';
-       case 7:
-         return 'assets/icons/state/state=7.svg';
-       case 8:
-         return 'assets/icons/state/state=8.svg';
-       case 9:
-         return 'assets/icons/state/state=9.svg';
-       case 10:
-         return 'assets/icons/state/state=10.svg';
-       default:
-         return 'assets/icons/state/state=0.svg';
-     }
   }
 }

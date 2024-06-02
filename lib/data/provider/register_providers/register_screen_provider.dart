@@ -197,7 +197,7 @@ class RegisterScreenProvider {
       if(value != "4" ) {
         // 설문조사 결과 값 세팅
         // ref.read(registerModelProvider.notifier).setSurvey(survey_summary);
-        print(value);
+        
         result = true;
       }
       if(value == "4" && etcValue.isNotEmpty) {
@@ -219,15 +219,15 @@ class RegisterScreenProvider {
       if(!nicknameResult) return;
 
       bool sexResult = fnConditionConfirm(ref, context, ref.read(genderButtonProvider.notifier).get(), 
-                                               "", ProjectConstant.REG_SEX_TYPE);
+                                          "", ProjectConstant.REG_SEX_TYPE);
       if(!sexResult) return;
 
       bool birthResult = fnConditionConfirm(ref, context, birthInput, 
-                                               ref.read(birthInputProvider.notifier).get(), ProjectConstant.REG_BIRTH_TYPE);
+                                            ref.read(birthInputProvider.notifier).get(), ProjectConstant.REG_BIRTH_TYPE);
       if(!birthResult) return;
 
       bool privateResult = fnConditionConfirm(ref, context, ref.read(privateRadioProvider.notifier).get(), 
-                                               "", ProjectConstant.REG_PRIVATE_TYPE);
+                                              "", ProjectConstant.REG_PRIVATE_TYPE);
       if(!privateResult) return;
 
       context.goNamed('register_second_screen');
@@ -279,23 +279,24 @@ class RegisterScreenProvider {
   }
   // 회원가입 첫 번째 화면 Provider 초기화
   static Future<void> fnInvalidateFirstScreen(WidgetRef ref) async {
-    ref.invalidate(nicknameButtonProvider);
-    ref.invalidate(nicknameInputProvider);
-    ref.invalidate(genderButtonProvider);
-    ref.invalidate(birthInputProvider);
-    ref.invalidate(privateRadioProvider);
+    await fnInvalidate(ref, nicknameButtonProvider);
+    await fnInvalidate(ref, nicknameInputProvider);
+    await fnInvalidate(ref, genderButtonProvider);
+    await fnInvalidate(ref, birthInputProvider);
+    await fnInvalidate(ref, privateRadioProvider);
   }
   // 회원가입 두 번째 화면 Provider 초기화
   static Future<void> fnInvalidateSecondScreen(WidgetRef ref) async {
-    ref.invalidate(emailButtonProvider);
-    ref.invalidate(emailInputProvider);
-    ref.invalidate(verificationCodeButtonProvider);
-    ref.invalidate(verificationCodeInputProvider);
-    ref.invalidate(passwordInputProvider);
+    await fnInvalidate(ref, emailButtonProvider);
+    await fnInvalidate(ref, emailButtonOnPressedProvider);
+    await fnInvalidate(ref, emailInputProvider);
+    await fnInvalidate(ref, verificationCodeButtonProvider);
+    await fnInvalidate(ref, verificationCodeInputProvider);
+    await fnInvalidate(ref, passwordInputProvider);
   }
   // 회원가입 세 번째 화면 Provider 초기화
   static Future<void> fnInvalidateThirdScreen(WidgetRef ref) async {
-    ref.invalidate(surveyRadioProvider);
+    await fnInvalidate(ref, surveyRadioProvider);
   }
   // 회원가입 실행
   static Future<void> fnRegisterExec(WidgetRef ref, BuildContext context) async {
