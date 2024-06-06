@@ -166,6 +166,15 @@ class RegisterController {
     }
   }
 
+  /* Input에 대해 에러메시지 출력여부를 결정하는 회원가입 공통 메서드 */
+  static bool fnValidateInput(String inputCode) {
+    if(inputCode == ProjectConstant.INPUT_CODE_00 ||
+       inputCode == ProjectConstant.INPUT_CODE_09 ||
+       inputCode == ProjectConstant.INPUT_CODE_10) return true;
+
+    return false;
+  }
+
   /* 1. 회원가입 첫 번째 화면 메서드 */
   static String fnGetNicknameInputCode(String nickname) {
     if(nickname.isEmpty) return ProjectConstant.INPUT_CODE_01;
@@ -174,13 +183,13 @@ class RegisterController {
     return ProjectConstant.INPUT_CODE_09;
   }
 
-  static bool fnValidateNicknameInput(String nicknameInputCode) {
+  /* static bool fnValidateNicknameInput(String nicknameInputCode) {
     if(nicknameInputCode == ProjectConstant.INPUT_CODE_00 ||
        nicknameInputCode == ProjectConstant.INPUT_CODE_09 ||
        nicknameInputCode == ProjectConstant.INPUT_CODE_10) return true;
 
     return false;
-  }
+  } */
 
   static String fnGetNicknameInputCodeStr(String nicknameInputCode) {
     String inputStr = "";
@@ -304,13 +313,13 @@ class RegisterController {
     return ProjectConstant.INPUT_CODE_09;
   }
 
-  static bool fnValidateBirthInput(String birthInputCode) {
+  /* static bool fnValidateBirthInput(String birthInputCode) {
     if(birthInputCode == ProjectConstant.INPUT_CODE_00 ||
        birthInputCode == ProjectConstant.INPUT_CODE_09 ||
        birthInputCode == ProjectConstant.INPUT_CODE_10) return true;
 
     return false;
-  }
+  } */
 
   static String fnGetBirthInputCodeStr(String birthInputCode) {
     String inputStr = "";
@@ -373,13 +382,13 @@ class RegisterController {
     return ProjectConstant.INPUT_CODE_09;
   }
 
-  static bool fnValidateEmailInput(String emailInputCode) {
+  /* static bool fnValidateEmailInput(String emailInputCode) {
     if(emailInputCode == ProjectConstant.INPUT_CODE_00 ||
        emailInputCode == ProjectConstant.INPUT_CODE_09 ||
        emailInputCode == ProjectConstant.INPUT_CODE_10) return true;
 
     return false;
-  }
+  } */
 
   static String fnGetEmailInputCodeStr(String emailInputCode) {
     String inputStr = "";
@@ -445,13 +454,13 @@ class RegisterController {
     return ProjectConstant.INPUT_CODE_09;
   }
 
-  static bool fnValidateVerificationCodeInput(String verificationInputCode) {
+  /* static bool fnValidateVerificationCodeInput(String verificationInputCode) {
     if(verificationInputCode == ProjectConstant.INPUT_CODE_00 ||
        verificationInputCode == ProjectConstant.INPUT_CODE_09 ||
        verificationInputCode == ProjectConstant.INPUT_CODE_10) return true;
 
     return false;
-  }
+  } */
 
   static String fnGetVerificationCodeInputCodeStr(String verificationInputCode) {
     String inputStr = "";
@@ -496,13 +505,13 @@ class RegisterController {
     return ProjectConstant.INPUT_CODE_09;
   }
 
-  static bool fnValidatePasswordInput(String passwordInputCode) {
+  /* static bool fnValidatePasswordInput(String passwordInputCode) {
     if(passwordInputCode == ProjectConstant.INPUT_CODE_00 ||
        passwordInputCode == ProjectConstant.INPUT_CODE_09 ||
        passwordInputCode == ProjectConstant.INPUT_CODE_10) return true;
 
     return false;
-  }
+  } */
 
   static String fnGetPasswordInputCodeStr(String passwordInputCode) {
     String inputStr = "";
@@ -547,13 +556,13 @@ class RegisterController {
     return ProjectConstant.INPUT_CODE_09;
   }
 
-  static bool fnValidatePasswordConfirmInput(String passwordConrimInputCode) {
+  /* static bool fnValidatePasswordConfirmInput(String passwordConrimInputCode) {
     if(passwordConrimInputCode == ProjectConstant.INPUT_CODE_00 ||
        passwordConrimInputCode == ProjectConstant.INPUT_CODE_09 ||
        passwordConrimInputCode == ProjectConstant.INPUT_CODE_10) return true;
 
     return false;
-  }
+  } */
 
   static String fnGetPasswordConfirmInputCodeStr(String passwordConrimInputCode) {
     String inputStr = "";
@@ -642,8 +651,9 @@ class RegisterController {
       middleText: resultText,
       onConfirm: () async {
         // provider 초기화
-
+        await fnInvalidateAll(ref);
         // 화면 이동
+        if(!context.mounted) return;
         context.replace('/login_screen');
       }
     );

@@ -5,7 +5,7 @@ class ProjectConstant {
 
   static const AUTO_LOGIN_YN = 'auto_login_YN';
 
-  static const BASE_URL = 'https://localhost:8080/api'; // <- 이 부분을 바꿔서 테스트하기!!!
+  static const BASE_URL = 'http://localhost:8080/api'; // <- 이 부분을 바꿔서 테스트하기!!!
 
   static const INPUT_INIT_VALUE = 'initial_value'; // input provider 초기값
 

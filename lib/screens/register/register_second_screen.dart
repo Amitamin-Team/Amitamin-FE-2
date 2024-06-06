@@ -124,10 +124,10 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                           },
                           hintText: "이메일을 입력하세요",
                           keyboardType: TextInputType.emailAddress,
-                          enabledBorder: RegisterController.fnValidateEmailInput(registerEmailInputResultState) ?
+                          enabledBorder: RegisterController.fnValidateInput(registerEmailInputResultState) ?
                                             CustomColor.lightGray :
                                             CustomColor.error,
-                          focusedBorder: RegisterController.fnValidateEmailInput(registerEmailInputResultState) ?
+                          focusedBorder: RegisterController.fnValidateInput(registerEmailInputResultState) ?
                                             CustomColor.primaryBlue100 :
                                             CustomColor.error,
                         ),
@@ -146,7 +146,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ],
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateEmailInput(registerEmailInputResultState),
+                    visible: !RegisterController.fnValidateInput(registerEmailInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -202,10 +202,10 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                                 inputFormatter: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
-                                enabledBorder: RegisterController.fnValidateVerificationCodeInput(registerVerificationCodeInputResultState) ?
+                                enabledBorder: RegisterController.fnValidateInput(registerVerificationCodeInputResultState) ?
                                                   CustomColor.lightGray :
                                                   CustomColor.error,
-                                focusedBorder: RegisterController.fnValidateVerificationCodeInput(registerVerificationCodeInputResultState) ?
+                                focusedBorder: RegisterController.fnValidateInput(registerVerificationCodeInputResultState) ?
                                                   CustomColor.primaryBlue100 :
                                                   CustomColor.error,
                               ),
@@ -227,7 +227,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ),
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateVerificationCodeInput(registerVerificationCodeInputResultState), 
+                    visible: !RegisterController.fnValidateInput(registerVerificationCodeInputResultState), 
                     child: Column(
                       children: [
                         const SizedBox(
@@ -268,15 +268,15 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     hintText: "비밀번호를 입력하세요",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    enabledBorder: RegisterController.fnValidatePasswordInput(registerPasswordInputResultState) ? 
+                    enabledBorder: RegisterController.fnValidateInput(registerPasswordInputResultState) ? 
                                     CustomColor.lightGray : 
                                     CustomColor.error,
-                    focusedBorder: RegisterController.fnValidatePasswordInput(registerPasswordInputResultState) ? 
+                    focusedBorder: RegisterController.fnValidateInput(registerPasswordInputResultState) ? 
                                     CustomColor.primaryBlue100 : 
                                     CustomColor.error,
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidatePasswordInput(registerPasswordInputResultState),
+                    visible: !RegisterController.fnValidateInput(registerPasswordInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -319,16 +319,16 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     hintText: "비밀번호를 한 번 더 입력하세요",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    enabledBorder: RegisterController.fnValidatePasswordConfirmInput(registerPasswordConfirmInputResultState) ? 
+                    enabledBorder: RegisterController.fnValidateInput(registerPasswordConfirmInputResultState) ? 
                       CustomColor.lightGray : 
                       CustomColor.error,
-                    focusedBorder: RegisterController.fnValidatePasswordConfirmInput(registerPasswordConfirmInputResultState) ? 
+                    focusedBorder: RegisterController.fnValidateInput(registerPasswordConfirmInputResultState) ? 
                       CustomColor.primaryBlue100 : 
                       CustomColor.error,
                   ),
                   Visibility(
-                    visible: //RegisterController.fnValidatePasswordInput(registerPasswordInputResultState) && 
-                             !RegisterController.fnValidatePasswordConfirmInput(registerPasswordConfirmInputResultState),
+                    visible: //RegisterController.fnValidateInput(registerPasswordInputResultState) && 
+                             !RegisterController.fnValidateInput(registerPasswordConfirmInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(

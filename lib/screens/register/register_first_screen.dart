@@ -121,10 +121,10 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                           },
                           hintText: "닉네임을 입력하세요",
                           keyboardType: TextInputType.text,
-                          enabledBorder: RegisterController.fnValidateNicknameInput(registerNicknameInputResultState) ? 
+                          enabledBorder: RegisterController.fnValidateInput(registerNicknameInputResultState) ? 
                                             CustomColor.lightGray :
                                             CustomColor.error,
-                          focusedBorder: RegisterController.fnValidateNicknameInput(registerNicknameInputResultState) ? 
+                          focusedBorder: RegisterController.fnValidateInput(registerNicknameInputResultState) ? 
                                             CustomColor.primaryBlue100 :
                                             CustomColor.error,
                         ),
@@ -143,7 +143,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                     ],
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateNicknameInput(registerNicknameInputResultState),
+                    visible: !RegisterController.fnValidateInput(registerNicknameInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -223,15 +223,15 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                       LengthLimitingTextInputFormatter(8),
                       BirthdayInputFormatter(),
                     ],
-                    enabledBorder: RegisterController.fnValidateBirthInput(registerBirthInputResultState) ? 
+                    enabledBorder: RegisterController.fnValidateInput(registerBirthInputResultState) ? 
                                     CustomColor.lightGray :
                                     CustomColor.error,
-                    focusedBorder: RegisterController.fnValidateBirthInput(registerBirthInputResultState) ? 
+                    focusedBorder: RegisterController.fnValidateInput(registerBirthInputResultState) ? 
                                     CustomColor.primaryBlue100 :
                                     CustomColor.error,
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateBirthInput(registerBirthInputResultState),
+                    visible: !RegisterController.fnValidateInput(registerBirthInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
