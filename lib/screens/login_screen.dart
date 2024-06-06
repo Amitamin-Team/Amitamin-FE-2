@@ -173,7 +173,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     bool state = false;
 
     final response = await ref.read(authRepositoryProvider).requestLoginRepository(
-      requestLoginModel: RequestLoginModel(
+      RequestLoginModel(
         email: email,
         password: password
       ),

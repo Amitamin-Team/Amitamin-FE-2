@@ -10,7 +10,7 @@ part 'register_repository.g.dart';
 final registerRepositoryProvider = Provider<RegisterRepository>((ref) {
   final dio = ref.watch(dioProvider);
 
-  final repository = RegisterRepository(dio, baseUrl: ProjectConstant.BASE_URL);
+  final repository = RegisterRepository(dio, baseUrl: '${ProjectConstant.BASE_URL}/users');
 
   return repository;
 });
@@ -21,8 +21,9 @@ abstract class RegisterRepository {
     _RegisterRepository;
 
   
-  @POST('/users')
-  Future<ResponseCommonListModel> requestRegisterRepository({
-    required RequestRegisterModel requestRegisterModel
-  });
+  @POST('/register')
+  Future<ResponseCommonListModel> requestRegisterRepository(@Body() RequestRegisterModel requestRegisterModel);
+
+  @GET('/check-user-name/{nickname}')
+  Future<ResponseCommonListModel> requestCheckUserNameRepository(@Path("nickname") String nickname);
 }

@@ -5,17 +5,24 @@ class ProjectConstant {
 
   static const AUTO_LOGIN_YN = 'auto_login_YN';
 
-  static const BASE_URL = 'https://localhost:8080';
+  static const BASE_URL = 'https://localhost:8080/api'; // <- 이 부분을 바꿔서 테스트하기!!!
 
-  static const REG_NICKNAME_TYPE = 'nickname';
-  static const REG_SEX_TYPE = 'sex';
-  static const REG_BIRTH_TYPE = 'birth';
-  static const REG_PRIVATE_TYPE = 'private';
-  static const REG_EMAIL_TYPE = 'email';
-  static const REG_CODE_TYPE = 'code';
-  static const REG_PASSWD_TYPE = 'password';
-  static const REG_SURVEY_TYPE = 'survey';
+  static const INPUT_INIT_VALUE = 'initial_value'; // input provider 초기값
 
+  static const INPUT_CODE_00 = '00'; // 초기값
+  static const INPUT_CODE_01 = '01'; // 입력값 없음
+  static const INPUT_CODE_02 = '02'; // 입력값 길이 오류
+  static const INPUT_CODE_03 = '03'; // 입력값 형식 오류
+  static const INPUT_CODE_04 = '04'; // 입력값 불일치
+  static const INPUT_CODE_05 = '05'; // 입력값 중복 오류
+  /* 필요 시 코드 추가 */
+  static const INPUT_CODE_09 = '09'; // 입력값 유효성 검증 성공 (API 요청 전)
+  static const INPUT_CODE_10 = '10'; // 입력값 API 요청 결과 성공 (API 요청 후)
+  static const INPUT_CODE_11 = '11'; // 입력값 API 요청 결과 실패 (response_code가 200이 아닐 때)
+  static const INPUT_CODE_12 = '12'; // 입력값 API 요청 완료 (이미 통과한 경우)
+  static const INPUT_CODE_13 = '13'; // 기타 오류 
+  
+  // 나중에 다른 파일로 옮길 예정
   static const Map<int, Map<String, dynamic>> FATIGUE_SCORE_MAP = {
     0 : {
       'score' : 0,
@@ -74,43 +81,4 @@ class ProjectConstant {
     },
   };
 
-  static const Map<String, Map<String, String>> INPUT_CODE_MAP = {
-    '0000' : {
-      'value' : '0000',
-      'comment' : '초기값',
-    },
-    '0001' : {
-      'value' : '0001',
-      'comment' : '입력값 없음',
-    },
-    '0002' : {
-      'value' : '0002',
-      'comment' : '입력값 길이 오류',
-    },
-    '0003' : {
-      'value' : '0003',
-      'comment' : '입력값 형식 오류',
-    },
-    '0004' : {
-      'value' : '0004',
-      'comment' : '입력값 불일치',
-    },
-    '0005' : {
-      'value' : '0005',
-      'comment' : '입력값 실패',
-    },
-    // TODO : 필요 시 추가 오류 코드 정의 (0006 ~ 0008)
-    '0009' : {
-      'value' : '0009',
-      'comment' : '입력값 유효성 검증 성공',
-    },
-    '0010' : {
-      'value' : '0010',
-      'comment' : '입력값 통과',
-    },
-    '0011' : {
-      'value' : '0011',
-      'comment' : '입력값 통과 완료 (이미 통과 후 다시 요청한 경우)',
-    },
-  };
 }

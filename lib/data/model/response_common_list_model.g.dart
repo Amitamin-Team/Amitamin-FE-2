@@ -11,7 +11,7 @@ ResponseCommonListModel _$ResponseCommonListModelFromJson(
     ResponseCommonListModel(
       response_code: json['response_code'] as int,
       response_message: json['response_message'] as String,
-      data: json['data'] as List<dynamic>,
+      data: json['data'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$ResponseCommonListModelToJson(

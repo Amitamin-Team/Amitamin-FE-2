@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 
 
 class RegisterScreenProvider {
+  
+
   /* ########## 회원가입 첫 번째 화면에 필요한 Provider ########## */
   static final nicknameButtonProvider = 
     StateNotifierProvider<NicknameButtonState, bool>((ref) => NicknameButtonState());
@@ -50,21 +52,21 @@ class RegisterScreenProvider {
 
   /* 메서드 */
   static String fnInputValidate(String value, String inputType, {String etcValue = ''}) {
-    String inputCode = ProjectConstant.INPUT_CODE_MAP['0009']!['value']!;
+    String inputCode = ProjectConstant.INPUT_CODE_09;
 
-    if(value.isEmpty) {
-      inputCode = ProjectConstant.INPUT_CODE_MAP['0001']!['value']!;
-    } else if(inputType == ProjectConstant.REG_NICKNAME_TYPE && value.length > 8) {
-      inputCode = ProjectConstant.INPUT_CODE_MAP['0002']!['value']!;
-    } else if(inputType == ProjectConstant.REG_BIRTH_TYPE && value.length != 10) {
-      inputCode = ProjectConstant.INPUT_CODE_MAP['0002']!['value']!;
-    } else if(inputType == ProjectConstant.REG_EMAIL_TYPE && !fnCheckEmailFormat(value)) {
-      inputCode = ProjectConstant.INPUT_CODE_MAP['0003']!['value']!;
-    } else if(inputType == ProjectConstant.REG_PASSWD_TYPE && (value.length < 8 || value.length > 15)) {
-      inputCode = ProjectConstant.INPUT_CODE_MAP['0002']!['value']!;
-    } else if(inputType == ProjectConstant.REG_PASSWD_TYPE && (value != etcValue || etcValue.isEmpty)) {
-      inputCode = ProjectConstant.INPUT_CODE_MAP['0004']!['value']!;
-    }
+    /*if(value.isEmpty) {
+      inputCode = ProjectConstant.INPUT_CODE_01;
+    } else if(inputType == NICKNAME && value.length > 8) {
+      inputCode = ProjectConstant.INPUT_CODE_02;
+    } else if(inputType == BIRTH && value.length != 10) {
+      inputCode = ProjectConstant.INPUT_CODE_02;
+    } else if(inputType == EMAIL && !fnCheckEmailFormat(value)) {
+      inputCode = ProjectConstant.INPUT_CODE_03;
+    } else if(inputType == PASSWD && (value.length < 8 || value.length > 15)) {
+      inputCode = ProjectConstant.INPUT_CODE_02;
+    } else if(inputType == PASSWD && (value != etcValue || etcValue.isEmpty)) {
+      inputCode = ProjectConstant.INPUT_CODE_04;
+    }*/
 
     return inputCode;
   }
@@ -86,52 +88,52 @@ class RegisterScreenProvider {
                                  String value, String state, String conType, {String etcValue = ''}) {
     bool result = false;
 
-    if(conType == ProjectConstant.REG_NICKNAME_TYPE) {
-      if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']! || 
-         state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) {
+    /*if(conType == NICKNAME) {
+      if(state == ProjectConstant.INPUT_CODE_09 || 
+         state == ProjectConstant.INPUT_CODE_10) {
         
         // 닉네임 값 설정
         //ref.read(registerModelProvider.notifier).setNickname(nickname);
         
         result = true;
       } 
-      if(state == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! || value.isEmpty) {
+      if(state == ProjectConstant.INPUT_CODE_01 || value.isEmpty) {
         showAlertDialog(context: context, middleText: Sentence.NICKNAME_INPUT_EMPTY_ERR);
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0002']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_02) {
         showAlertDialog(context: context, middleText: Sentence.NICKNAME_INPUT_LENGTH_ERR);
       }
-      /*if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']!) {
+      /*if(state == ProjectConstant.INPUT_CODE_09) {
         showAlertDialog(context: context, middleText: Sentence.NICKNAME_INPUT_TRY_ERR);
       }*/
-      if(state == ProjectConstant.INPUT_CODE_MAP['0005']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_05) {
         showAlertDialog(context: context, middleText: Sentence.NICKNAME_INPUT_DUPLICATE_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_SEX_TYPE) {
+    if(conType == SEX) {
       if(value != "") {
         // 성별 설정
         // ref.read(registerModelProvider.notifier).setGender(sex);
         result = true;
       } else {
-        showAlertDialog(context: context, middleText: Sentence.GENDER_BUTTON_SELECT_ERR);
+        showAlertDialog(context: context, middleText: Sentence.SEX_BUTTON_SELECT_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_BIRTH_TYPE) {
-      if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']! || 
-         state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) {
+    if(conType == BIRTH) {
+      if(state == ProjectConstant.INPUT_CODE_09 || 
+         state == ProjectConstant.INPUT_CODE_10) {
         // 생년월일 설정
         // ref.read(registerModelProvider.notifier).setBirth(birth);
         result = true;
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! || value.isEmpty) {
+      if(state == ProjectConstant.INPUT_CODE_01 || value.isEmpty) {
         showAlertDialog(context: context, middleText: Sentence.BIRTH_INPUT_EMPTY_ERR);
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0002']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_02) {
         showAlertDialog(context: context, middleText: Sentence.BIRTH_INPUT_LENGTH_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_PRIVATE_TYPE) {
+    if(conType == PRIVATE) {
       if(value == "Y") {
         // 개인정보처리방침 동의 설정
         // ref.read(registerModelProvider.notifier).setPrivateYN("Y");
@@ -140,54 +142,54 @@ class RegisterScreenProvider {
         showAlertDialog(context: context, middleText: Sentence.PRIVATE_RADIO_CHECK_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_EMAIL_TYPE) {
-      if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']! || 
-         state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) {
+    if(conType == EMAIL) {
+      if(state == ProjectConstant.INPUT_CODE_09 || 
+         state == ProjectConstant.INPUT_CODE_10) {
         
         result = true;
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! || value.isEmpty) {
+      if(state == ProjectConstant.INPUT_CODE_01 || value.isEmpty) {
         showAlertDialog(context: context, middleText: Sentence.EMAIL_INPUT_EMPTY_ERR);
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0003']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_03) {
         showAlertDialog(context: context, middleText: Sentence.EMAIL_INPUT_FORMAT_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_CODE_TYPE) {
-      if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']! || 
-         state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) {
+    if(conType == CODE) {
+      if(state == ProjectConstant.INPUT_CODE_09 || 
+         state == ProjectConstant.INPUT_CODE_10) {
         // 인증번호 인증 완료 후 이메일 값 세팅
         // ref.read(registerModelProvider.notifier).setEmail(email);
         result = true;
       } 
-      if(state == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! || value.isEmpty) {
+      if(state == ProjectConstant.INPUT_CODE_01 || value.isEmpty) {
         showAlertDialog(context: context, middleText: Sentence.CODE_INPUT_EMPTY_ERR);
       }
-      /*if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']!) {
+      /*if(state == ProjectConstant.INPUT_CODE_09) {
         showAlertDialog(context: context, middleText: Sentence.CODE_INPUT_TRY_ERR);
       }*/
-      if(state == ProjectConstant.INPUT_CODE_MAP['0005']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_05) {
         showAlertDialog(context: context, middleText: Sentence.CODE_INPUT_MATCH_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_PASSWD_TYPE) {
-      if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']! || 
-         state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) {
+    if(conType == PASSWD) {
+      if(state == ProjectConstant.INPUT_CODE_09 || 
+         state == ProjectConstant.INPUT_CODE_10) {
         // 비밀번호 세팅
         // ref.read(registerModelProvider.notifier).setPassword(password);
         result = true;
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0001']!['value']! || value.isEmpty) {
+      if(state == ProjectConstant.INPUT_CODE_01 || value.isEmpty) {
         showAlertDialog(context: context, middleText: Sentence.PASSWD_INPUT_EMPTY_ERR);
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0002']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_02) {
         showAlertDialog(context: context, middleText: Sentence.PASSWD_INPUT_LENGTH_ERR);
       }
-      if(state == ProjectConstant.INPUT_CODE_MAP['0004']!['value']!) {
+      if(state == ProjectConstant.INPUT_CODE_04) {
         showAlertDialog(context: context, middleText: Sentence.PASSWD_INPUT_MATCH_ERR);
       }
     }
-    if(conType == ProjectConstant.REG_SURVEY_TYPE) {
+    if(conType == SURVEY) {
       if(value == "" || value.isEmpty) {
         showAlertDialog(context: context, middleText: Sentence.SURVEY_RADIO_SELECT_ERR);
       }
@@ -206,45 +208,45 @@ class RegisterScreenProvider {
         print(value);
         result = true;
       }
-    }
+    }*/
 
     return result;
   }
 
   static Future<void> fnGoToNext(WidgetRef ref, BuildContext context, int page, 
                        {nicknameInput='',birthInput='',emailInput='',codeInput='',passwdInput='',etcInput=''}) async {
-    if(page == 1) {
+    /*if(page == 1) {
       bool nicknameResult = fnConditionConfirm(ref, context, nicknameInput, 
-                                               ref.read(nicknameInputProvider.notifier).get(), ProjectConstant.REG_NICKNAME_TYPE);
+                                               ref.read(nicknameInputProvider.notifier).get(), NICKNAME);
       if(!nicknameResult) return;
 
       bool sexResult = fnConditionConfirm(ref, context, ref.read(genderButtonProvider.notifier).get(), 
-                                          "", ProjectConstant.REG_SEX_TYPE);
+                                          "", SEX);
       if(!sexResult) return;
 
       bool birthResult = fnConditionConfirm(ref, context, birthInput, 
-                                            ref.read(birthInputProvider.notifier).get(), ProjectConstant.REG_BIRTH_TYPE);
+                                            ref.read(birthInputProvider.notifier).get(), BIRTH);
       if(!birthResult) return;
 
       bool privateResult = fnConditionConfirm(ref, context, ref.read(privateRadioProvider.notifier).get(), 
-                                              "", ProjectConstant.REG_PRIVATE_TYPE);
+                                              "", PRIVATE);
       if(!privateResult) return;
 
       context.goNamed('register_second_screen');
     }
     if(page == 2) {
       bool emailResult = fnConditionConfirm(ref, context, emailInput,
-                                            ref.read(emailInputProvider.notifier).get(), ProjectConstant.REG_EMAIL_TYPE);
+                                            ref.read(emailInputProvider.notifier).get(), EMAIL);
 
       if(!emailResult) return;
 
       bool codeResult = fnConditionConfirm(ref, context, codeInput,
-                                           ref.read(verificationCodeInputProvider.notifier).get(), ProjectConstant.REG_CODE_TYPE);
+                                           ref.read(verificationCodeInputProvider.notifier).get(), CODE);
 
       if(!codeResult) return;
 
       bool passwordResult = fnConditionConfirm(ref, context, passwdInput,
-                                               ref.read(passwordInputProvider.notifier).get(), ProjectConstant.REG_PASSWD_TYPE);
+                                               ref.read(passwordInputProvider.notifier).get(), PASSWD);
 
       if(!passwordResult) return;
 
@@ -252,21 +254,21 @@ class RegisterScreenProvider {
     }
     if(page == 3) {
       bool surveyResult = fnConditionConfirm(ref, context, ref.read(surveyRadioProvider.notifier).get(),
-                                            "", ProjectConstant.REG_SURVEY_TYPE, etcValue: etcInput);
+                                            "", SURVEY, etcValue: etcInput);
 
       if(!surveyResult) return;
 
       await fnRegisterExec(ref, context);
-    }
+    }*/
 
   }
 
   static bool fnGetInputBoolState(String state) {
     bool result = false;
 
-    if(state == ProjectConstant.INPUT_CODE_MAP['0000']!['value']!) result = true;
-    if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']!) result = true;
-    if(state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) result = true;
+    if(state == ProjectConstant.INPUT_CODE_00) result = true;
+    if(state == ProjectConstant.INPUT_CODE_09) result = true;
+    if(state == ProjectConstant.INPUT_CODE_10) result = true;
 
     return result;
   }
@@ -300,8 +302,8 @@ class RegisterScreenProvider {
   }
   // 회원가입 실행
   static Future<void> fnRegisterExec(WidgetRef ref, BuildContext context) async {
-    final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
-      requestRegisterModel: ref.read(registerModelProvider.notifier).get()
+    /*final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
+      ref.read(registerModelProvider.notifier).get()
     );
 
     if(response.response_code == 200) {
@@ -321,7 +323,7 @@ class RegisterScreenProvider {
           context.replace('/login_screen');
         }
       );
-    }
+    }*/
   }
 }
 
@@ -339,7 +341,7 @@ class NicknameButtonState extends StateNotifier<bool> {
 }
 
 class NicknameInputState extends StateNotifier<String> {
-  NicknameInputState() : super(ProjectConstant.INPUT_CODE_MAP['0000']!['value']!);
+  NicknameInputState() : super(ProjectConstant.INPUT_CODE_00);
 
   void set(String value) {
     state = value;
@@ -363,7 +365,7 @@ class GenderButtonState extends StateNotifier<String> {
 }
 
 class BirthInputState extends StateNotifier<String> {
-  BirthInputState() : super(ProjectConstant.INPUT_CODE_MAP['0000']!['value']!);
+  BirthInputState() : super(ProjectConstant.INPUT_CODE_00);
 
   void set(String value) {
     state = value;
@@ -411,15 +413,15 @@ class EmailButtonOnPressedState extends StateNotifier<bool> {
   }
 
   void setStateLinkedEmail(String state) {
-    if(state == ProjectConstant.INPUT_CODE_MAP['0009']!['value']! || 
-       state == ProjectConstant.INPUT_CODE_MAP['0010']!['value']!) {
+    if(state == ProjectConstant.INPUT_CODE_09 || 
+       state == ProjectConstant.INPUT_CODE_10) {
         set(false);
     }
   }
 }
 
 class EmailInputState extends StateNotifier<String> {
-  EmailInputState() : super(ProjectConstant.INPUT_CODE_MAP['0000']!['value']!);
+  EmailInputState() : super(ProjectConstant.INPUT_CODE_00);
 
   void set(String value) {
     state = value;
@@ -443,7 +445,7 @@ class VerificationCodeButtonState extends StateNotifier<bool> {
 }
 
 class VerificationCodeInputState extends StateNotifier<String> {
-  VerificationCodeInputState() : super(ProjectConstant.INPUT_CODE_MAP['0000']!['value']!);
+  VerificationCodeInputState() : super(ProjectConstant.INPUT_CODE_00);
 
   void set(String value) {
     state = value;
@@ -455,7 +457,7 @@ class VerificationCodeInputState extends StateNotifier<String> {
 }
 
 class PasswordInputState extends StateNotifier<String> {
-  PasswordInputState() : super(ProjectConstant.INPUT_CODE_MAP['0000']!['value']!);
+  PasswordInputState() : super(ProjectConstant.INPUT_CODE_00);
 
   void set(String value) {
     state = value;

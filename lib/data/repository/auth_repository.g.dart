@@ -20,11 +20,12 @@ class _AuthRepository implements AuthRepository {
 
   @override
   Future<ResponseCommonMapModel> requestLoginRepository(
-      {required RequestLoginModel requestLoginModel}) async {
+      RequestLoginModel requestLoginModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(requestLoginModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ResponseCommonMapModel>(Options(
       method: 'POST',
@@ -48,11 +49,12 @@ class _AuthRepository implements AuthRepository {
 
   @override
   Future<ResponseCommonListModel> requestLogoutRepository(
-      {required RequestLogoutModel requestLogoutModel}) async {
+      RequestLogoutModel requestLogoutModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(requestLogoutModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ResponseCommonListModel>(Options(
       method: 'POST',
@@ -62,6 +64,35 @@ class _AuthRepository implements AuthRepository {
             .compose(
               _dio.options,
               '/logout',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ResponseCommonListModel.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ResponseCommonListModel> requestRefreshRepository(
+      RequestRefreshModel requestRefreshModel) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(requestRefreshModel.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ResponseCommonListModel>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/refresh',
               queryParameters: queryParameters,
               data: _data,
             )
