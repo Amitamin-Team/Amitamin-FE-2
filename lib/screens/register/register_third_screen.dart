@@ -1,5 +1,4 @@
 import 'package:amitamin_frontend/controller/controller.dart';
-import 'package:amitamin_frontend/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
