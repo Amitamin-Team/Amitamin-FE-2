@@ -6,8 +6,10 @@ showConfirmDialog({
   required BuildContext context,
   required String middleText,
   required VoidCallback onConfirm,
+  bool barrierDismissible = true,
 }) {
   showDialog(
+    barrierDismissible: barrierDismissible, // 바깥 영역 터치 시 -> true : 창닫기 O, false :  창닫기 X 
     context: context, 
     builder: (context) {
       return Dialog(

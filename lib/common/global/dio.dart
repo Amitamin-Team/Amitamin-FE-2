@@ -26,12 +26,25 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
 
+    // 헤더 설정
+    options.headers = {
+      'Content-Type': 'application/json',
+    };
+
     // TODO : 요청 시 토큰 처리
     final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
     final refreshToken = await storage.read(key: ProjectConstant.REFRESH_TOKEN);
 
     // TODO : 헤더에 토큰 삽입
 
+    // 디버깅 코드
+    print("###################");
+    print(options.data);
+    print(options.path);
+    print(options.baseUrl);
+    print(options.contentType);
+    print("###################");
+    
     return super.onRequest(options, handler);
   }
 
@@ -55,12 +68,12 @@ class CustomInterceptor extends Interceptor {
     final requestPath = err.requestOptions.path;
 
     // TODO : REFRESH TOKEN 재발급 요청
-    if(statusCode == 401 && requestPath != '/reissue') {
+    if(statusCode == 401 && requestPath != '/refresh') {
       final dio = Dio();
 
       try {
         final resp = await dio.post(
-          '${ProjectConstant.BASE_URL}/reissue',
+          '${ProjectConstant.BASE_URL}/auth/refresh',
           options: Options(
             headers: {},
           ),

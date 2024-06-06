@@ -6,12 +6,12 @@ part 'response_common_list_model.g.dart';
 class ResponseCommonListModel {
   final int response_code;
   final String response_message;
-  final List<dynamic> data;
+  final List<dynamic>? data;
 
   ResponseCommonListModel({
     required this.response_code,
     required this.response_message,
-    required this.data
+    this.data
   });
 
   factory ResponseCommonListModel.fromJson(Map<String, dynamic> json) => _$ResponseCommonListModelFromJson(json);

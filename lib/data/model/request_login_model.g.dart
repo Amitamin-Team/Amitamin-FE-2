@@ -10,10 +10,12 @@ RequestLoginModel _$RequestLoginModelFromJson(Map<String, dynamic> json) =>
     RequestLoginModel(
       email: json['email'] as String,
       password: json['password'] as String,
+      remember_me: json['remember_me'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$RequestLoginModelToJson(RequestLoginModel instance) =>
     <String, dynamic>{
       'email': instance.email,
       'password': instance.password,
+      'remember_me': instance.remember_me,
     };
