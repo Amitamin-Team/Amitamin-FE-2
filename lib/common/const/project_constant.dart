@@ -1,13 +1,11 @@
 class ProjectConstant {
   static const ACCESS_TOKEN = 'access_token';
   static const REFRESH_TOKEN = 'refresh_token';
-  static const EXPIRED_AT = 'expired_at';
+  static const EXPIRES_IN = 'expires_in';
 
   static const AUTO_LOGIN_YN = 'auto_login_YN';
 
   static const BASE_URL = 'http://localhost:8080/api'; // <- 이 부분을 바꿔서 테스트하기!!!
-
-  static const INPUT_INIT_VALUE = 'initial_value'; // input provider 초기값
 
   static const INPUT_CODE_00 = '00'; // 초기값
   static const INPUT_CODE_01 = '01'; // 입력값 없음

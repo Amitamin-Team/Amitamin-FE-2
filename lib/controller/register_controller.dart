@@ -232,20 +232,25 @@ class RegisterController {
   static Future<void> fnCheckNicknameExec(WidgetRef ref, BuildContext context) async {
     // 닉네임 가져오기
     String nickname = ref.read(registerNicknameInputProvider.notifier).get();
-
-    final response = await ref.read(registerRepositoryProvider).requestCheckUserNameRepository(
-      nickname
-    );
-    // 닉네임 사용이 가능할 경우 (중복X)
-    if(response.response_code == 200) {
+    try {
+      final response = await ref.read(registerRepositoryProvider).requestCheckUserNameRepository(
+        nickname
+      );
+      // 닉네임 사용이 가능할 경우 (중복X)
+      if(response.response_code == 200) {
+        if(!context.mounted) return;
+        messageToast(context, Sentence.NICKNAME_INPUT_SUCCESS);
+        ref.read(registerNicknameInpuResultProvider.notifier).set(ProjectConstant.INPUT_CODE_10);
+        
+      } 
+      // 닉네임 사용이 불가능할 경우 (중복O) 
+      if(response.response_code == 400){
+        ref.read(registerNicknameInpuResultProvider.notifier).set(ProjectConstant.INPUT_CODE_05);
+      }
+    } catch (e) {
+      // print(e);
       if(!context.mounted) return;
-      messageToast(context, Sentence.NICKNAME_INPUT_SUCCESS);
-      ref.read(registerNicknameInpuResultProvider.notifier).set(ProjectConstant.INPUT_CODE_10);
-      
-    } 
-    // 닉네임 사용이 불가능할 경우 (중복O) 
-    if(response.response_code == 400){
-      ref.read(registerNicknameInpuResultProvider.notifier).set(ProjectConstant.INPUT_CODE_05);
+      showErrorDialog(context: context);
     }
   }
 
@@ -630,32 +635,35 @@ class RegisterController {
 
   // 회원가입 실행 
   static Future<void> fnRegisterExec(WidgetRef ref, BuildContext context) async {
-    // print(ref.read(requestRegisterProvider.notifier).get().toJson());
-    final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
-      ref.read(requestRegisterProvider.notifier).get()
-    );
+    try {
+      final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
+        ref.read(requestRegisterProvider.notifier).get()
+      );
 
-    String resultText = "";
+      String resultText = "";
 
-    if(response.response_code == 200 || response.response_code == 201) {
-      resultText = Sentence.REGISTER_SUCCESS;
-    } else {
-      resultText = Sentence.REGISER_FAILED;
-    }
-
-    if(!context.mounted) return;
-
-    showConfirmDialog(
-      barrierDismissible: false,
-      context: context, 
-      middleText: resultText,
-      onConfirm: () async {
-        // provider 초기화
-        await fnInvalidateAll(ref);
-        // 화면 이동
-        if(!context.mounted) return;
-        context.replace('/login_screen');
+      if(response.response_code == 200 || response.response_code == 201) {
+        resultText = Sentence.REGISTER_SUCCESS;
+      } else {
+        resultText = Sentence.REGISER_FAILED;
       }
-    );
+
+      if(!context.mounted) return;
+      showConfirmDialog(
+        barrierDismissible: false,
+        context: context, 
+        middleText: resultText,
+        onConfirm: () async {
+          // provider 초기화
+          await fnInvalidateAll(ref);
+          // 화면 이동
+          if(!context.mounted) return;
+          context.replace('/login_screen');
+        }
+      );
+    } catch(e) {
+      if(!context.mounted) return;
+      showErrorDialog(context: context);
+    }
   }  
 }
