@@ -22,7 +22,7 @@ abstract class AuthRepository {
 
 
   @POST('/login')
-  Future<ResponseCommonMapModel> requestLoginRepository(@Body() RequestLoginModel requestLoginModel);
+  Future<ResponseLoginModel> requestLoginRepository(@Body() RequestLoginModel requestLoginModel);
 
   @POST('/logout')
   Future<ResponseCommonListModel> requestLogoutRepository(@Body() RequestLogoutModel requestLogoutModel);

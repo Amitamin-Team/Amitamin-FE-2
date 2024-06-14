@@ -1,5 +1,6 @@
 import 'package:amitamin_frontend/common/common.dart';
 import 'package:amitamin_frontend/common/utils/fn_close.dart';
+import 'package:amitamin_frontend/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,13 +22,15 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   void initState() {
     super.initState();
     // 자동로그인 state 값 최초 설정
-    ref.read(autoLoginRadioProvider.notifier).init();
+    ref.read(LoginController.loginAutoCheckProvider.notifier).init();
   }
 
   @override
   Widget build(BuildContext context) {
-    final autoLoginRadioState = ref.watch(autoLoginRadioProvider);
-    final loginButtonState = ref.watch(loginButtonProvider);
+    final loginButtonState = ref.watch(LoginController.loginButtonProvider);
+    final loginAutoCheckState = ref.watch(LoginController.loginAutoCheckProvider);
+    // final loginEmailInputState = ref.watch(LoginController.loginEmailInputProvider);
+    // final loginPasswordInputState = ref.watch(LoginController.loginPasswordInputProvider);
 
     return DefaultLayout(
       child: WillPopScope(
@@ -53,8 +56,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   OutlinedInput(
                     controller: emailInputController,
                     onChanged: (String email) {
-                      ref.read(loginButtonProvider.notifier).activate(
-                        emailInputController.text, passwordInputController.text);
+                      // 이메일 인풋값 세팅
+                      ref.read(LoginController.loginEmailInputProvider.notifier).set(emailInputController.text);
                     },
                     hintText: '이메일을 입력하세요',
                     keyboardType: TextInputType.emailAddress,
@@ -62,9 +65,12 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   const SizedBox(height: 12),
                   OutlinedInput(
                     controller: passwordInputController,
-                    onChanged: (String password) {
-                      ref.read(loginButtonProvider.notifier).activate(
+                    onChanged: (String pwd) {
+                      // 로그인 버튼 활성화/비활성화
+                      ref.read(LoginController.loginButtonProvider.notifier).activate(
                         emailInputController.text, passwordInputController.text);
+                      // 비밀번호 인풋값 세팅
+                      ref.read(LoginController.loginPasswordInputProvider.notifier).set(passwordInputController.text);
                     },
                     hintText: '비밀번호를 입력하세요',
                     keyboardType: TextInputType.visiblePassword,
@@ -78,9 +84,9 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       InkWell(
                         onTap: () {
                           // radio button toggle 수행
-                          ref.read(autoLoginRadioProvider.notifier).toggle();
+                          ref.read(LoginController.loginAutoCheckProvider.notifier).toggle();
                         },
-                        child: autoLoginRadioState ? SvgPicture.asset(
+                        child: loginAutoCheckState ? SvgPicture.asset(
                           "assets/icons/check/radio_checked.svg",
                           width: 24,
                           height: 24,
@@ -101,15 +107,17 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   BlueTextButton(
                     onPressed: () async {
+
+                      await LoginController.fnLoginExecPrev(ref, context);
                       // TODO : 로그인 로직 추가
-                      if(emailInputController.text.isEmpty) {
+                      /*if(emailInputController.text.isEmpty) {
                         showAlertDialog(context: context, middleText: "이메일을 입력해주세요.");
                         return;
                       }
                       if(passwordInputController.text.isEmpty) {
                         showAlertDialog(context: context, middleText: "비밀번호를 입력해주세요.");
                         return;
-                      }
+                      }*/
           
                       // TODO : 로그인 API 연동
                       /*final result = await login(emailInputController.text, passwordInputController.text);
@@ -122,7 +130,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         } 
                       }*/
           
-                      context.goNamed('home_screen');
+                      // context.goNamed('home_screen');
                     },
                     text: '로그인',
                     disabled: !loginButtonState,
@@ -169,24 +177,5 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         ),
       ),
     );
-  }
-
-  Future<bool> login(String email, String password) async {
-    bool state = false;
-
-    final response = await ref.read(authRepositoryProvider).requestLoginRepository(
-      RequestLoginModel(
-        email: email,
-        password: password
-      ),
-    );
-
-    if(response.response_code == 200) {
-      // TODO : token 삽입 로직 추가
-
-      state = true;
-    } 
-
-    return state;
   }
 }
