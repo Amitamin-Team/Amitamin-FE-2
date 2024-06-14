@@ -43,6 +43,7 @@ class CustomInterceptor extends Interceptor {
     print(options.path);
     print(options.baseUrl);
     print(options.contentType);
+    print(options.responseType);
     print("###################");
     
     return super.onRequest(options, handler);

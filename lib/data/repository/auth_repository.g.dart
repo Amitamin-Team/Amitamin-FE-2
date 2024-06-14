@@ -19,15 +19,15 @@ class _AuthRepository implements AuthRepository {
   String? baseUrl;
 
   @override
-  Future<ResponseCommonMapModel> requestLoginRepository(
+  Future<ResponseLoginModel> requestLoginRepository(
       RequestLoginModel requestLoginModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(requestLoginModel.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ResponseCommonMapModel>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ResponseLoginModel>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -43,7 +43,7 @@ class _AuthRepository implements AuthRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ResponseCommonMapModel.fromJson(_result.data!);
+    final value = ResponseLoginModel.fromJson(_result.data!);
     return value;
   }
 
