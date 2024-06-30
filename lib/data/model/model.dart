@@ -7,11 +7,12 @@ export 'request_send_verification_code_model.dart';
 export 'request_logout_model.dart';
 export 'request_refresh_model.dart';
 
-/* respones model */
+/* response model */
 export 'response_common_list_model.dart';
 export 'response_common_map_model.dart';
 export 'response_login_model.dart';
 export 'response_login_user_model.dart';
 export 'response_refresh_model.dart';
 
-/* model */
+/* 기타 model */
+export 'home_fatigue_score_model.dart';

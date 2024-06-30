@@ -60,6 +60,7 @@ dev_dependencies:
   build_runner: ^2.3.3
   json_serializable: ^6.6.0
   retrofit_generator: '>=7.0.0 <8.0.0' # required dart >=2.19
+  url_launcher: '>=6.2.1 <6.2.5'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

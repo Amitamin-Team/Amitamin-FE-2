@@ -1,4 +1,4 @@
-import 'package:amitamin_frontend/data/data.dart';
+import 'package:amitamin_frontend/controller/home_fatigue_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,11 +16,11 @@ class HomeFatigueScreen extends ConsumerStatefulWidget {
 class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
   @override
   Widget build(BuildContext context) {
-    final fatigueScoreState = ref.watch(fatigueScoreProvider);
+    final homeFatigueScoreState = ref.watch(HomeFatigueController.homeFatigueScoreProvider);
 
     final sliderWidth = MediaQuery.of(context).size.width;
 
-    int score = (fatigueScoreState/(sliderWidth-60)*10).round();
+    int score = (homeFatigueScoreState/(sliderWidth-60)*10).round();
 
     // TODO : 점수를 체크하지 않았으면 화면 진입, slider 활성화
     // TODO : 점수가 체크되어 있으면 화면 진입, 점수 세팅, slider 비활성화
@@ -30,7 +30,7 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
         title: '피로도 체크하기',
         leadingDisable: false,
         leadingOnPressed: () async {
-          await fnInvalidate(ref, fatigueScoreProvider);
+          await fnInvalidate(ref, HomeFatigueController.homeFatigueScoreProvider);
           if (!context.mounted) return;
           context.pop();
         },
@@ -38,7 +38,7 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
       ),
       child: WillPopScope(
         onWillPop: () async {
-          await fnInvalidate(ref, fatigueScoreProvider);
+          await fnInvalidate(ref, HomeFatigueController.homeFatigueScoreProvider);
           if (!context.mounted) return false;
           context.pop();
           
@@ -85,24 +85,28 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              ProjectConstant.FATIGUE_SCORE_MAP[score]!['path']!,
+                              HomeFatigueController.fatigueScoreList[score].imgPath,
                               width: 60,
                               height: 60,
                             ),
                             const SizedBox(height: 8,),
                             Text(
                               // '${(fatigueScoreState/(sliderWidth-60)*10).round()}점',
-                              '${ProjectConstant.FATIGUE_SCORE_MAP[score]!['score']!}점',
+                              '${HomeFatigueController.fatigueScoreList[score].score}점',
                               style: CustomText.headLine4,
                             ),
                             const SizedBox(height: 8,),
-                            Text(
-                              '몇점입니다.',
-                              style: TextStyle(
-                                color: CustomColor.gray,
-                                fontFamily: CustomText.body6.fontFamily,
-                                fontSize: CustomText.body6.fontSize,
-                                fontWeight: CustomText.body6.fontWeight,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Text(
+                                HomeFatigueController.fatigueScoreList[score].comment,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: CustomColor.gray,
+                                  fontFamily: CustomText.body6.fontFamily,
+                                  fontSize: CustomText.body6.fontSize,
+                                  fontWeight: CustomText.body6.fontWeight,
+                                ),
                               ),
                             ),
                           ],
@@ -142,8 +146,8 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                               for(int i=0;i<10;i++)
                                 Container(
                                   height: 16,
-                                  // TODO : 점수 체크 여부에 따라 slider on/off
-                                  width: (fatigueScoreState - ((sliderWidth - 60) / 10) * i).clamp(0, ((sliderWidth - 60) / 10)),
+                                  // TODO : 점수 입력 여부에 따라 slider on/off
+                                  width: (homeFatigueScoreState - ((sliderWidth - 60) / 10) * i).clamp(0, ((sliderWidth - 60) / 10)),
                                   margin: EdgeInsets.only(top: 9, right: (i < 9) ? 2.0 : 0.0),
                                   decoration: BoxDecoration(
                                     borderRadius: i == 0 ?
@@ -164,12 +168,12 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                         ),
                         Positioned(
                           // 점수 체크 여부에 따라 pointer on/off
-                          left: fatigueScoreState - 5,
+                          left: homeFatigueScoreState - 5,
                           top: 0,
                           child: GestureDetector(
                             onPanUpdate: (details) {
-                              ref.read(fatigueScoreProvider.notifier)
-                                 .setScore((details.delta.dx + fatigueScoreState)
+                              ref.read(HomeFatigueController.homeFatigueScoreProvider.notifier)
+                                 .set((details.delta.dx + homeFatigueScoreState)
                                  .clamp(0, sliderWidth-59));
                             },
                             child: SvgPicture.asset(

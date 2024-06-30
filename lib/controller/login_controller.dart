@@ -71,6 +71,8 @@ class LoginController {
       // 로그인 성공
       if(response.response_code == 200) {
         ResponseLoginModel responseLoginModel = ResponseLoginModel.fromJson(response.data![0]);
+        // TODO : 사용자 정보 Provider에 저장
+        ResponseLoginUserModel responseLoginUserModel = ResponseLoginUserModel.fromJson(responseLoginModel.user);
         
         // 디버깅 코드
         print(responseLoginModel.access_token);
