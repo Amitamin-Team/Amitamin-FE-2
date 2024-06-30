@@ -635,6 +635,9 @@ class RegisterController {
 
   // 회원가입 실행 
   static Future<void> fnRegisterExec(WidgetRef ref, BuildContext context) async {
+    // 로딩화면
+    showOverlayLoadingDialog(context: context);
+
     try {
       final response = await ref.read(registerRepositoryProvider).requestRegisterRepository(
         ref.read(requestRegisterProvider.notifier).get()
@@ -649,6 +652,7 @@ class RegisterController {
       }
 
       if(!context.mounted) return;
+      hideOverlayLoadingDialog(context);
       showConfirmDialog(
         barrierDismissible: false,
         context: context, 
@@ -663,6 +667,7 @@ class RegisterController {
       );
     } catch(e) {
       if(!context.mounted) return;
+      hideOverlayLoadingDialog(context);
       showErrorDialog(context: context);
     }
   }  

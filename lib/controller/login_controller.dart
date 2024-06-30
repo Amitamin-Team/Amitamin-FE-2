@@ -1,6 +1,5 @@
 import 'package:amitamin_frontend/common/common.dart';
 import 'package:amitamin_frontend/data/data.dart';
-import 'package:amitamin_frontend/data/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -52,6 +51,11 @@ class LoginController {
   }
 
   static Future<void> fnLoginExec(WidgetRef ref, BuildContext context) async {
+    // 로딩화면 
+    showOverlayLoadingDialog(context: context);
+
+    final storage = ref.watch(secureStorageProvider);
+
     String email = ref.read(loginEmailInputProvider.notifier).get();
     String password = ref.read(loginPasswordInputProvider.notifier).get();
     bool remember_me = ref.read(loginAutoCheckProvider.notifier).get();
@@ -65,29 +69,60 @@ class LoginController {
         )
       );
       // 로그인 성공
-      if(response.access_token.isNotEmpty) {
-        if(!context.mounted) return;
-        // context.goNamed('home_screen');
+      if(response.response_code == 200) {
+        ResponseLoginModel responseLoginModel = ResponseLoginModel.fromJson(response.data![0]);
         
         // 디버깅 코드
-        print(response.access_token);
-        print(response.expires_in);
-        print(response.refresh_token);
-        print(response.token_type);
-        print(response.user);
+        print(responseLoginModel.access_token);
+        print(responseLoginModel.expires_in);
+        print(responseLoginModel.refresh_token);
+        print(responseLoginModel.token_type);
+        print(responseLoginModel.user);
+
+        await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: responseLoginModel.access_token);
+        await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: responseLoginModel.refresh_token);
+        await storage.write(key: ProjectConstant.EXPIRES_IN, value: responseLoginModel.expires_in.toString());
+        await storage.write(key: ProjectConstant.LOING_TIME, value: DateTime.now().toString());
+
+        if (!context.mounted) return;
+        hideOverlayLoadingDialog(context);
+
+        if(!context.mounted) return;
+        context.goNamed('home_screen');
       }
       // 로그인 실패 (응답의 일관성 필요)
-      if(response.access_token.isEmpty){
+      else if(response.response_code == 401){
         if(!context.mounted) return;
+        hideOverlayLoadingDialog(context);
         showAlertDialog(
           context: context, 
-          middleText: "이메일과 비밀번호를 확인해주세요."
+          middleText: "이메일 또는 비밀번호를 확인해주세요."
+        );
+        return;
+      } 
+      // 기타 실패
+      else {
+        if(!context.mounted) return;
+        hideOverlayLoadingDialog(context);
+        showAlertDialog(
+          context: context, 
+          middleText: "올바르지 않은 요청입니다."
         );
         return;
       }
     } catch (e) {
+      // 디버깅 코드
+      print("========== Login Exception ==========");
       print(e);
+
+      await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
+      await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: null);
+      await storage.write(key: ProjectConstant.EXPIRES_IN, value: null);
+      await storage.write(key: ProjectConstant.LOING_TIME, value: null);
+      await storage.write(key: ProjectConstant.AUTO_LOGIN_YN, value: null);
+
       if(!context.mounted) return;
+      hideOverlayLoadingDialog(context);
       showErrorDialog(context: context);
     } 
   }

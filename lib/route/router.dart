@@ -1,5 +1,6 @@
 import 'package:amitamin_frontend/screens/home/home_fatigue_screen.dart';
 import 'package:amitamin_frontend/screens/my/my_profile_screen.dart';
+import 'package:amitamin_frontend/screens/password_find_screen.dart';
 import 'package:amitamin_frontend/screens/screens.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +19,13 @@ final router = GoRouter(
       path: '/login_screen',
       name: 'login_screen',
       builder: (context, state) => LoginScreen(),
+      routes: [
+        GoRoute(
+          path: 'password_find_screen',
+          name: 'password_find_screen',
+          builder: (context, state) => PasswordFindScreen()
+        )
+      ]
     ),
     ShellRoute(
       builder: (context, state, child) => RootScreen(child: child),
