@@ -2,6 +2,7 @@ class ProjectConstant {
   static const ACCESS_TOKEN = 'access_token';
   static const REFRESH_TOKEN = 'refresh_token';
   static const EXPIRES_IN = 'expires_in';
+  static const LOING_TIME = 'login_time';
 
   static const AUTO_LOGIN_YN = 'auto_login_YN';
 

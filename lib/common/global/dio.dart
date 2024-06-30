@@ -1,5 +1,6 @@
 import 'package:amitamin_frontend/common/const/project_constant.dart';
 import 'package:amitamin_frontend/common/global/secure_storage.dart';
+import 'package:amitamin_frontend/data/data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -61,7 +62,7 @@ class CustomInterceptor extends Interceptor {
     final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
     final refreshToken = await storage.read(key: ProjectConstant.REFRESH_TOKEN);
 
-    if(refreshToken == null) {
+    if(accessToken == null || refreshToken == null) {
       return handler.reject(err);
     }
 
@@ -69,7 +70,7 @@ class CustomInterceptor extends Interceptor {
     final requestPath = err.requestOptions.path;
 
     // TODO : REFRESH TOKEN 재발급 요청
-    if(statusCode == 401 && requestPath != '/refresh') {
+    if((statusCode == 401 || statusCode == 422) && requestPath != '/refresh') {
       final dio = Dio();
 
       try {
@@ -78,14 +79,23 @@ class CustomInterceptor extends Interceptor {
           options: Options(
             headers: {},
           ),
+          data: {
+            'refresh_token' : await storage.read(key: ProjectConstant.REFRESH_TOKEN),
+          }
         );
 
+        ResponseCommonListModel responseCommonListModel = ResponseCommonListModel.fromJson(resp.data);
+        ResponseRefreshModel responseRefreshModel = ResponseRefreshModel.fromJson(responseCommonListModel.data![0]);
+
         // 응답으로 받은 토큰 
-        final accessToken = resp.data['access_token'];
-        final refreshToken = resp.data['refresh_token'];
+        final accessToken = responseRefreshModel.access_token;
+        final refreshToken = responseRefreshModel.refresh_token;
+        final expiresIn = responseRefreshModel.expires_in;
         // secure storage에 토큰 다시 저장
         await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: accessToken);
         await storage.write(key: ProjectConstant.REFRESH_TOKEN, value: refreshToken);
+        await storage.write(key: ProjectConstant.EXPIRES_IN, value: expiresIn.toString());
+        await storage.write(key: ProjectConstant.LOING_TIME, value: DateTime.now().toString());
 
         // 요청 재전송
         final response = await dio.fetch(err.requestOptions);

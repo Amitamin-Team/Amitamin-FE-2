@@ -1,6 +1,6 @@
 import 'package:amitamin_frontend/common/common.dart';
 import 'package:amitamin_frontend/screens/my/widget/widget.dart';
-
+import 'package:amitamin_frontend/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -175,7 +175,15 @@ class MyScreenState extends ConsumerState<MyScreen> {
                 menuName: "로그아웃",
                 svgPath: "",
                 svgFlag: false,
-                voidCallback: () {},
+                voidCallback: () {
+                  showConfirmDialog(
+                    context: context, 
+                    middleText: "정말 로그아웃 하시겠습니까?", 
+                    onConfirm: () async {
+                      await MyController.fnLoginOutExec(ref, context);
+                    }
+                  );
+                },
               ),
               const SizedBox(
                 height: 1,
