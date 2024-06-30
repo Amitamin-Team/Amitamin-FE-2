@@ -20,19 +20,31 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      checkAuth();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // 토큰 확인 후 링크 처리
+      String _url = await _checkAuth();
+      // 2초 후 화면 이동
+      await Future.delayed(const Duration(milliseconds: 2000), () {
+        context.goNamed(_url);
+      });
     });
+    
+    /* Future.delayed(const Duration(milliseconds: 2000), () {
+      _checkAuth();
+    }); */
   }
 
-  void checkAuth() async {
+  Future<String> _checkAuth() async {
+    String _url = 'login_screen';
+
     final storage = ref.watch(secureStorageProvider);
 
     final autoLoginYN = await storage.read(key: ProjectConstant.AUTO_LOGIN_YN);
 
     // 자동로그인 설정이 없을 경우 로그인 화면으로 이동
     if(autoLoginYN == null || autoLoginYN == 'N') {
-      context.goNamed('login_screen');
+      // context.goNamed('login_screen');
+      return _url;
     // 자동로그인 설정되어 있을 경우
     } else {
       final accessToken = await storage.read(key: ProjectConstant.ACCESS_TOKEN);
@@ -79,15 +91,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
       // 토큰이 없을 경우 로그인 화면으로 이동
       if(accessToken == null || refreshToken == null || expiresIn == null) {
-        context.goNamed('login_screen');
+        // context.goNamed('login_screen');
+        _url = 'login_screen';
       // 토큰이 있을 경우 홈 화면으로 이동
       } else {
         // TODO : 사용자 정보 불러오기
 
         // 홈 화면으로 이동
-        context.goNamed('home_screen');
+        // context.goNamed('home_screen');
+        _url = 'home_screen';
       }
     }
+
+    return _url;
   }
 
   @override

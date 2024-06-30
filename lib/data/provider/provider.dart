@@ -1,7 +1,5 @@
 export 'bottom_nav_provider.dart';
 export 'home_tab_provider.dart';
-// TODO : 폴더 안에 있는 Provider를 provider 폴더로 꺼내기
-export 'home_providers/home_providers.dart';
 
 /* 회원가입 관련 Provider */
 export 'register_nickname_input_provider.dart';
@@ -33,3 +31,6 @@ export 'login_email_input_provider.dart';
 export 'login_password_input_provider.dart';
 
 /* 마이페이지 관련 Provider */
+
+/* 홈 화면 관련 Provider */
+export 'home_fatigue_score_provider.dart';

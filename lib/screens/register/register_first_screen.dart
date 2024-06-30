@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-
 import 'register_navigationbar.dart';
-
 import 'package:amitamin_frontend/common/common.dart';
+// ignore: depend_on_referenced_packages
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterFirstScreen extends ConsumerStatefulWidget {
   const RegisterFirstScreen({Key? key}) : super(key: key);
@@ -300,6 +300,7 @@ class RegisterFirstScreenState extends ConsumerState<RegisterFirstScreen> {
                       GestureDetector(
                         onTap: () {
                           // TODO : 개인정보 처리 방침 페이지로 이동
+                          launchUrl(Uri.parse(ProjectConstant.PRIVATE_URL));
                         },
                         child: Text(
                           "개인정보 처리 방침",

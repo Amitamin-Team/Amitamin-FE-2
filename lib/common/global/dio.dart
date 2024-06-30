@@ -86,7 +86,9 @@ class CustomInterceptor extends Interceptor {
 
         ResponseCommonListModel responseCommonListModel = ResponseCommonListModel.fromJson(resp.data);
         ResponseRefreshModel responseRefreshModel = ResponseRefreshModel.fromJson(responseCommonListModel.data![0]);
-
+        // TODO : 사용자 정보 Provider에 저장
+        ResponseLoginUserModel responseLoginUserModel = ResponseLoginUserModel.fromJson(responseRefreshModel.user);
+        
         // 응답으로 받은 토큰 
         final accessToken = responseRefreshModel.access_token;
         final refreshToken = responseRefreshModel.refresh_token;
