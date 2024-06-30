@@ -2,7 +2,7 @@ import 'package:amitamin_frontend/data/data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeFatigueController {
-  static List<HomeFatigueScoreModel> fatigueScoreList = [
+  static final List<HomeFatigueScoreModel> fatigueScoreList = [
     HomeFatigueScoreModel(
       score: 0,
       imgPath: 'assets/icons/emoji/state=0.svg',
@@ -60,5 +60,5 @@ class HomeFatigueController {
     ),
   ];
 
-  static final homeFatigueScoreProvider = StateNotifierProvider<HomeFatigueScore, double>((ref) => HomeFatigueScore());
+  static final homeFatigueScoreProvider = StateNotifierProvider<HomeFatigueScoreState, double>((ref) => HomeFatigueScoreState());
 }
