@@ -11,3 +11,6 @@ class LoginButtonState extends StateNotifier<bool> {
     }
   }
 }
+
+final loginButtonProvider = 
+    StateNotifierProvider<LoginButtonState, bool>((ref) => LoginButtonState());

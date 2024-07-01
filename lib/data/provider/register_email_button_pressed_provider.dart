@@ -11,3 +11,6 @@ class RegisterEmailButtonPressedState extends StateNotifier<bool> {
     return state;
   }
 }
+
+final registerEmailButtonPressedProvider = 
+    StateNotifierProvider<RegisterEmailButtonPressedState, bool>((ref) => RegisterEmailButtonPressedState());

@@ -4,33 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginController {
+mixin class LoginController {
 
   /* ########## 로그인 관련 Provider ########## */
-  static final loginButtonProvider = 
+  /* final loginButtonProvider = 
     StateNotifierProvider<LoginButtonState, bool>((ref) => LoginButtonState());
 
-  static final loginAutoCheckProvider = StateNotifierProvider<LoginAutoCheckState, bool>((ref) {
+  final loginAutoCheckProvider = StateNotifierProvider<LoginAutoCheckState, bool>((ref) {
     final storage = ref.watch(secureStorageProvider);
 
     return LoginAutoCheckState(storage: storage);
   });
 
-  static final loginEmailInputProvider = 
+  final loginEmailInputProvider = 
     StateNotifierProvider<LoginEmailInputState, String>((ref) => LoginEmailInputState());
 
-  static final loginPasswordInputProvider = 
-    StateNotifierProvider<LoginPasswordInputState, String>((ref) => LoginPasswordInputState());
+  final loginPasswordInputProvider = 
+    StateNotifierProvider<LoginPasswordInputState, String>((ref) => LoginPasswordInputState()); */
 
   /* ########## 로그인 관련 메서드 ########## */
-  static Future<void> fnInvalidateAll(WidgetRef ref) async {
+  Future<void> fnInvalidateAll(WidgetRef ref) async {
     await fnInvalidate(ref, loginButtonProvider);
     await fnInvalidate(ref, loginAutoCheckProvider);
     await fnInvalidate(ref, loginEmailInputProvider);
     await fnInvalidate(ref, loginPasswordInputProvider);
   }
 
-  static Future<void> fnLoginExecPrev(WidgetRef ref, BuildContext context) async {
+  Future<void> fnLoginExecPrev(WidgetRef ref, BuildContext context) async {
     String email = ref.read(loginEmailInputProvider.notifier).get();
     String password = ref.read(loginEmailInputProvider.notifier).get();
 
@@ -52,7 +52,7 @@ class LoginController {
     await fnLoginExec(ref, context);
   }
 
-  static Future<void> fnLoginExec(WidgetRef ref, BuildContext context) async {
+  Future<void> fnLoginExec(WidgetRef ref, BuildContext context) async {
     // 로딩화면 
     showOverlayLoadingDialog(context: context);
 

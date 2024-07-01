@@ -7,3 +7,5 @@ class HomeFatigueScoreState extends StateNotifier<double> {
 
   double get() => state;
 }
+
+final homeFatigueScoreProvider = StateNotifierProvider<HomeFatigueScoreState, double>((ref) => HomeFatigueScoreState());

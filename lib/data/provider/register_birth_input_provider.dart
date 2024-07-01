@@ -11,3 +11,6 @@ class RegisterBirthInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerBirthInputProvider =
+    StateNotifierProvider<RegisterBirthInputState, String>((ref) => RegisterBirthInputState());

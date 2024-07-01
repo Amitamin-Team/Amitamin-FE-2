@@ -11,3 +11,6 @@ class RegisterNicknameInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerNicknameInputProvider = 
+    StateNotifierProvider<RegisterNicknameInputState, String>((ref) => RegisterNicknameInputState());

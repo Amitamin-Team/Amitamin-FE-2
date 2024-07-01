@@ -11,3 +11,6 @@ class LoginEmailInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final loginEmailInputProvider = 
+    StateNotifierProvider<LoginEmailInputState, String>((ref) => LoginEmailInputState());

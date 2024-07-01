@@ -1,4 +1,5 @@
 import 'package:amitamin_frontend/controller/controller.dart';
+import 'package:amitamin_frontend/data/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,7 @@ class RegisterSecondScreen extends ConsumerStatefulWidget {
       RegisterSecondScreenState();
 }
 
-class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
+class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> with RegisterController {
   TextEditingController emailInputController = TextEditingController();
   TextEditingController vCodeInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
@@ -23,17 +24,17 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final registerEmailInputState = ref.watch(RegisterController.registerEmailInputProvider);
-    final registerEmailInputResultState = ref.watch(RegisterController.registerEmailInputResultProvider);
-    final registerEmailButtonState = ref.watch(RegisterController.registerEmailButtonProvider);
-    final registerEmailButtonPressedState = ref.watch(RegisterController.registerEmailButtonPressedProvider);
-    // final registerVerificationCodeInputState = ref.watch(RegisterController.registerVerificationCodeInputProvider);
-    final registerVerificationCodeInputResultState = ref.watch(RegisterController.registerVerificationCodeInputResultProvider);
-    final registerVerificationCodeButtonState = ref.watch(RegisterController.registerVerificationCodeButtonProvider);
-    // final registerPasswordInputState = ref.watch(RegisterController.registerPasswordInputProvider);
-    final registerPasswordInputResultState = ref.watch(RegisterController.registerPasswordInputResultProvider);
-    // final registerPasswordConfirmInputState = ref.watch(RegisterController.registerPasswordConfirmInputProvider);
-    final registerPasswordConfirmInputResultState = ref.watch(RegisterController.registerPasswordConfirmInputResultProvider);
+    // final registerEmailInputState = ref.watch(registerEmailInputProvider);
+    final registerEmailInputResultState = ref.watch(registerEmailInputResultProvider);
+    final registerEmailButtonState = ref.watch(registerEmailButtonProvider);
+    final registerEmailButtonPressedState = ref.watch(registerEmailButtonPressedProvider);
+    // final registerVerificationCodeInputState = ref.watch(registerVerificationCodeInputProvider);
+    final registerVerificationCodeInputResultState = ref.watch(registerVerificationCodeInputResultProvider);
+    final registerVerificationCodeButtonState = ref.watch(registerVerificationCodeButtonProvider);
+    // final registerPasswordInputState = ref.watch(registerPasswordInputProvider);
+    final registerPasswordInputResultState = ref.watch(registerPasswordInputResultProvider);
+    // final registerPasswordConfirmInputState = ref.watch(registerPasswordConfirmInputProvider);
+    final registerPasswordConfirmInputResultState = ref.watch(registerPasswordConfirmInputResultProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -45,7 +46,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () async {
-              await RegisterController.fnInvalidateAll(ref);
+              await fnInvalidateAll(ref);
               if(!context.mounted) return;
               context.replace('/login_screen');
             }
@@ -54,12 +55,12 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () async {
-          await RegisterController.fnInvalidateSecondScreen(ref);
+          await fnInvalidateSecondScreen(ref);
           if(!context.mounted) return;
           context.pop();
         },
         text: "2 / 3",
-        nextOnTap: () => RegisterController.fnGoToNext(ref, context, 2),
+        nextOnTap: () => fnGoToNext(ref, context, 2),
       ),
       child: WillPopScope(
         onWillPop: () async {
@@ -67,7 +68,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () async {
-              await RegisterController.fnInvalidateAll(ref);
+              await fnInvalidateAll(ref);
               if(!context.mounted) return;
               context.replace('/login_screen');
             }
@@ -112,22 +113,22 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                           controller: emailInputController,
                           onChanged: (String email) {
                             // 인증하기 버튼 활성화/비활성화
-                            ref.read(RegisterController.registerEmailButtonProvider.notifier).activate(
+                            ref.read(registerEmailButtonProvider.notifier).activate(
                               emailInputController.text
                             );
                             // 이메일 인풋값 세팅
-                            ref.read(RegisterController.registerEmailInputProvider.notifier).set(emailInputController.text);
+                            ref.read(registerEmailInputProvider.notifier).set(emailInputController.text);
                             // 이메일 인풋 상태코드 세팅
-                            ref.read(RegisterController.registerEmailInputResultProvider.notifier).set(
-                              RegisterController.fnGetEmailInputCode(emailInputController.text)
+                            ref.read(registerEmailInputResultProvider.notifier).set(
+                              fnGetEmailInputCode(emailInputController.text)
                             );
                           },
                           hintText: "이메일을 입력하세요",
                           keyboardType: TextInputType.emailAddress,
-                          enabledBorder: RegisterController.fnValidateInput(registerEmailInputResultState) ?
+                          enabledBorder: fnValidateInput(registerEmailInputResultState) ?
                                             CustomColor.lightGray :
                                             CustomColor.error,
-                          focusedBorder: RegisterController.fnValidateInput(registerEmailInputResultState) ?
+                          focusedBorder: fnValidateInput(registerEmailInputResultState) ?
                                             CustomColor.primaryBlue100 :
                                             CustomColor.error,
                         ),
@@ -137,7 +138,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: BlueTextButton(
                           onPressed: () async {
-                            await RegisterController.fnSendVerificationCodeExec(ref, context);
+                            await fnSendVerificationCodeExec(ref, context);
                           },
                           text: "인증하기",
                           disabled: !registerEmailButtonState,
@@ -146,14 +147,14 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ],
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateInput(registerEmailInputResultState),
+                    visible: !fnValidateInput(registerEmailInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          RegisterController.fnGetEmailInputCodeStr(registerEmailInputResultState),
+                          fnGetEmailInputCodeStr(registerEmailInputResultState),
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
                             fontWeight: CustomText.body7.fontWeight,
@@ -187,14 +188,14 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                                 controller: vCodeInputController,
                                 onChanged: (String vCode) {
                                   // 인증확인 버튼 활성화/비활성화
-                                  ref.read(RegisterController.registerVerificationCodeButtonProvider.notifier).activate(
+                                  ref.read(registerVerificationCodeButtonProvider.notifier).activate(
                                     vCodeInputController.text
                                   );
                                   // 인증코드 인풋값 세팅
-                                  ref.read(RegisterController.registerVerificationCodeInputProvider.notifier).set(vCodeInputController.text);
+                                  ref.read(registerVerificationCodeInputProvider.notifier).set(vCodeInputController.text);
                                   // 이메일 인풋 상태코드 세팅
-                                  ref.read(RegisterController.registerVerificationCodeInputResultProvider.notifier).set(
-                                    RegisterController.fnGetVerificationCodeInputCode(vCodeInputController.text)
+                                  ref.read(registerVerificationCodeInputResultProvider.notifier).set(
+                                    fnGetVerificationCodeInputCode(vCodeInputController.text)
                                   );
                                 },
                                 hintText: "인증번호를 입력하세요",
@@ -202,10 +203,10 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                                 inputFormatter: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
-                                enabledBorder: RegisterController.fnValidateInput(registerVerificationCodeInputResultState) ?
+                                enabledBorder: fnValidateInput(registerVerificationCodeInputResultState) ?
                                                   CustomColor.lightGray :
                                                   CustomColor.error,
-                                focusedBorder: RegisterController.fnValidateInput(registerVerificationCodeInputResultState) ?
+                                focusedBorder: fnValidateInput(registerVerificationCodeInputResultState) ?
                                                   CustomColor.primaryBlue100 :
                                                   CustomColor.error,
                               ),
@@ -215,7 +216,7 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                               width: MediaQuery.of(context).size.width * 0.3,
                               child: BlueTextButton(
                                 onPressed: () async {
-                                  await RegisterController.fnVerifyCodeExec(ref, context);
+                                  await fnVerifyCodeExec(ref, context);
                                 },
                                 text: "인증확인",
                                 disabled: !registerVerificationCodeButtonState,
@@ -227,14 +228,14 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     ),
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateInput(registerVerificationCodeInputResultState), 
+                    visible: !fnValidateInput(registerVerificationCodeInputResultState), 
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          RegisterController.fnGetVerificationCodeInputCodeStr(registerVerificationCodeInputResultState),
+                          fnGetVerificationCodeInputCodeStr(registerVerificationCodeInputResultState),
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
                             fontWeight: CustomText.body7.fontWeight,
@@ -259,31 +260,31 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     controller: passwordInputController,
                     onChanged: (String pwd) {
                       // 비밀번호 인풋값 세팅
-                      ref.read(RegisterController.registerPasswordInputProvider.notifier).set(passwordInputController.text);
+                      ref.read(registerPasswordInputProvider.notifier).set(passwordInputController.text);
                       // 비밀번호 인풋 상태코드 세팅
-                      ref.read(RegisterController.registerPasswordInputResultProvider.notifier).set(
-                        RegisterController.fnGetPasswordInputCode(passwordInputController.text)
+                      ref.read(registerPasswordInputResultProvider.notifier).set(
+                        fnGetPasswordInputCode(passwordInputController.text)
                       );
                     },
                     hintText: "비밀번호를 입력하세요",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    enabledBorder: RegisterController.fnValidateInput(registerPasswordInputResultState) ? 
+                    enabledBorder: fnValidateInput(registerPasswordInputResultState) ? 
                                     CustomColor.lightGray : 
                                     CustomColor.error,
-                    focusedBorder: RegisterController.fnValidateInput(registerPasswordInputResultState) ? 
+                    focusedBorder: fnValidateInput(registerPasswordInputResultState) ? 
                                     CustomColor.primaryBlue100 : 
                                     CustomColor.error,
                   ),
                   Visibility(
-                    visible: !RegisterController.fnValidateInput(registerPasswordInputResultState),
+                    visible: !fnValidateInput(registerPasswordInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          RegisterController.fnGetPasswordInputCodeStr(registerPasswordInputResultState),
+                          fnGetPasswordInputCodeStr(registerPasswordInputResultState),
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
                             fontWeight: CustomText.body7.fontWeight,
@@ -308,10 +309,10 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     controller: passwordConfirmInputController,
                     onChanged: (String pwd) {
                       // 비밀번호 확인 인풋값 세팅
-                      ref.read(RegisterController.registerPasswordConfirmInputProvider.notifier).set(passwordConfirmInputController.text);
+                      ref.read(registerPasswordConfirmInputProvider.notifier).set(passwordConfirmInputController.text);
                       // 비밀번호 확인 인풋 상태코드 세팅
-                      ref.read(RegisterController.registerPasswordConfirmInputResultProvider.notifier).set(
-                        RegisterController.fnGetPasswordConfirmInputCode(
+                      ref.read(registerPasswordConfirmInputResultProvider.notifier).set(
+                        fnGetPasswordConfirmInputCode(
                           passwordInputController.text, passwordConfirmInputController.text
                         )
                       );
@@ -319,23 +320,23 @@ class RegisterSecondScreenState extends ConsumerState<RegisterSecondScreen> {
                     hintText: "비밀번호를 한 번 더 입력하세요",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    enabledBorder: RegisterController.fnValidateInput(registerPasswordConfirmInputResultState) ? 
+                    enabledBorder: fnValidateInput(registerPasswordConfirmInputResultState) ? 
                       CustomColor.lightGray : 
                       CustomColor.error,
-                    focusedBorder: RegisterController.fnValidateInput(registerPasswordConfirmInputResultState) ? 
+                    focusedBorder: fnValidateInput(registerPasswordConfirmInputResultState) ? 
                       CustomColor.primaryBlue100 : 
                       CustomColor.error,
                   ),
                   Visibility(
-                    visible: //RegisterController.fnValidateInput(registerPasswordInputResultState) && 
-                             !RegisterController.fnValidateInput(registerPasswordConfirmInputResultState),
+                    visible: //fnValidateInput(registerPasswordInputResultState) && 
+                             !fnValidateInput(registerPasswordConfirmInputResultState),
                     child: Column(
                       children: [
                         const SizedBox(
                           height: 12,
                         ),
                         Text(
-                          RegisterController.fnGetPasswordConfirmInputCodeStr(registerPasswordConfirmInputResultState),
+                          fnGetPasswordConfirmInputCodeStr(registerPasswordConfirmInputResultState),
                           style: TextStyle(
                             fontFamily: CustomText.body7.fontFamily,
                             fontWeight: CustomText.body7.fontWeight,

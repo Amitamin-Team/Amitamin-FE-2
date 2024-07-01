@@ -1,4 +1,5 @@
 import 'package:amitamin_frontend/controller/controller.dart';
+import 'package:amitamin_frontend/data/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,13 +19,13 @@ class RegisterThirdScreen extends ConsumerStatefulWidget {
       RegisterThirdScreenState();
 }
 
-class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
+class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> with RegisterController {
   TextEditingController etcInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final registerSurveyCheckState = ref.watch(RegisterController.registerSurveyCheckProvider);
-    // final registerSurveyEtcInputState = ref.watch(RegisterController.registerSurveyEtcInputProvider);
+    final registerSurveyCheckState = ref.watch(registerSurveyCheckProvider);
+    // final registerSurveyEtcInputState = ref.watch(registerSurveyEtcInputProvider);
 
     return DefaultLayout(
       appBar: DefaultAppBar(
@@ -36,7 +37,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () async {
-              await RegisterController.fnInvalidateAll(ref);
+              await fnInvalidateAll(ref);
               if(!context.mounted) return;
               context.replace('/login_screen');
             }
@@ -45,13 +46,13 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
       ),
       bottomNavigationBar: RegisterBottomNavigationBar(
         backOnTap: () async {
-          await RegisterController.fnInvalidateThirdScreen(ref);
+          await fnInvalidateThirdScreen(ref);
           if(!context.mounted) return;
           context.pop();
         },
         text: "3 / 3",
         nextOnTap: () async {
-          await RegisterController.fnGoToNext(ref, context, 3);
+          await fnGoToNext(ref, context, 3);
         },
         nextText: "완료",
       ),
@@ -61,7 +62,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
             context: context, 
             middleText: Sentence.REGISTER_EXIT, 
             onConfirm: () async {
-              await RegisterController.fnInvalidateAll(ref);
+              await fnInvalidateAll(ref);
               if(!context.mounted) return;
               context.replace('/login_screen');
             }
@@ -89,9 +90,9 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(RegisterController.registerSurveyCheckProvider.notifier).set("1");
+                          ref.read(registerSurveyCheckProvider.notifier).set("1");
                           etcInputController.text = "";
-                          ref.read(RegisterController.registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
+                          ref.read(registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
                         },
                         child: registerSurveyCheckState == "1" ? SvgPicture.asset(
                           "assets/icons/check/radio_checked.svg",
@@ -117,9 +118,9 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(RegisterController.registerSurveyCheckProvider.notifier).set("2");
+                          ref.read(registerSurveyCheckProvider.notifier).set("2");
                           etcInputController.text = "";
-                          ref.read(RegisterController.registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
+                          ref.read(registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
                         },
                         child: registerSurveyCheckState == "2" ? SvgPicture.asset(
                           "assets/icons/check/radio_checked.svg",
@@ -145,9 +146,9 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          ref.read(RegisterController.registerSurveyCheckProvider.notifier).set("3");
+                          ref.read(registerSurveyCheckProvider.notifier).set("3");
                           etcInputController.text = "";
-                          ref.read(RegisterController.registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
+                          ref.read(registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
                         },
                         child: registerSurveyCheckState == "3" ? SvgPicture.asset(
                           "assets/icons/check/radio_checked.svg",
@@ -175,7 +176,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              ref.read(RegisterController.registerSurveyCheckProvider.notifier).set("4");
+                              ref.read(registerSurveyCheckProvider.notifier).set("4");
                             },
                             child: registerSurveyCheckState.contains("4") ? SvgPicture.asset(
                               "assets/icons/check/radio_checked.svg",
@@ -210,7 +211,7 @@ class RegisterThirdScreenState extends ConsumerState<RegisterThirdScreen> {
                             child: OutlinedEtcInput(
                               controller: etcInputController,
                               onChanged: (String etc) {
-                                ref.read(RegisterController.registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
+                                ref.read(registerSurveyEtcInputProvider.notifier).set(etcInputController.text);
                               },
                               hintText: "내용을 입력하세요",
                               keyboardType: TextInputType.text,

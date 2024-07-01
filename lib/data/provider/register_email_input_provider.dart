@@ -11,3 +11,6 @@ class RegisterEmailInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerEmailInputProvider = 
+    StateNotifierProvider<RegisterEmailInputState, String>((ref) => RegisterEmailInputState());
