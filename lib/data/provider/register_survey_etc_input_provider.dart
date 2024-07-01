@@ -11,3 +11,6 @@ class RegisterSurveyEtcInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerSurveyEtcInputProvider = 
+    StateNotifierProvider<RegisterSurveyEtcInputState, String>((ref) => RegisterSurveyEtcInputState());

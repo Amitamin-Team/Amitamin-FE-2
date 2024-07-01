@@ -11,3 +11,6 @@ class LoginPasswordInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final loginPasswordInputProvider = 
+    StateNotifierProvider<LoginPasswordInputState, String>((ref) => LoginPasswordInputState());

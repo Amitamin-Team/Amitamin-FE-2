@@ -19,3 +19,6 @@ class RegisterVerificationCodeButtonState extends StateNotifier<bool> {
     }
   }
 }
+
+final registerVerificationCodeButtonProvider = 
+    StateNotifierProvider<RegisterVerificationCodeButtonState, bool>((ref) => RegisterVerificationCodeButtonState());

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class MyController {
-  static Future<void> fnLoginOutExec(WidgetRef ref, BuildContext context) async {
+mixin class MyController {
+  Future<void> fnLoginOutExec(WidgetRef ref, BuildContext context) async {
     final storage = ref.watch(secureStorageProvider);
 
     await storage.write(key: ProjectConstant.ACCESS_TOKEN, value: null);
