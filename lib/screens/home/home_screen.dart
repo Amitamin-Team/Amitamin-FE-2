@@ -24,7 +24,7 @@ class HomeScreen extends ConsumerWidget {
                 InkWell(
                   onTap: () {
                     // TODO : 화면이동
-                    context.goNamed('home_fatigue_screen');
+                    context.pushNamed('home_fatigue_screen');
                   },
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -90,7 +90,8 @@ class HomeScreen extends ConsumerWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // TODO : 목표 입력 화면으로 이동
+                          // TODO : 목표리스트 추가 화면으로 이동
+                          context.pushNamed('home_select_survey_screen');
                         },
                         child: SvgPicture.asset(
                           'assets/icons/system/add.svg',
