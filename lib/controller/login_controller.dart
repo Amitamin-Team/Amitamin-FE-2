@@ -26,6 +26,8 @@ class LoginController {
   static Future<void> fnInvalidateAll(WidgetRef ref) async {
     await fnInvalidate(ref, loginButtonProvider);
     await fnInvalidate(ref, loginAutoCheckProvider);
+    await fnInvalidate(ref, loginEmailInputProvider);
+    await fnInvalidate(ref, loginPasswordInputProvider);
   }
 
   static Future<void> fnLoginExecPrev(WidgetRef ref, BuildContext context) async {
@@ -86,10 +88,11 @@ class LoginController {
         await storage.write(key: ProjectConstant.EXPIRES_IN, value: responseLoginModel.expires_in.toString());
         await storage.write(key: ProjectConstant.LOING_TIME, value: DateTime.now().toString());
 
-        if (!context.mounted) return;
-        hideOverlayLoadingDialog(context);
-
+        // Provider 초기화
+        fnInvalidateAll(ref);
+        // 화면 이동
         if(!context.mounted) return;
+        hideOverlayLoadingDialog(context);
         context.goNamed('home_screen');
       }
       // 로그인 실패 (응답의 일관성 필요)

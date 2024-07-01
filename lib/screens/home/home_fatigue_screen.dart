@@ -36,6 +36,19 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
         },
         actionDisable: true,
       ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: (const NavigationBarThemeData().height ?? 80) + 16),
+        child: BlueTextButton(
+          onPressed: () {
+            // TODO : 피로도 API 연동
+          },
+          disabled: score > 0 ? false : true,
+          text: '완료',
+          disabledBackgroundColor: CustomColor.lightGray,
+          disabledBorderColor: CustomColor.lightGray,
+          disabledTextColor: CustomColor.extraDarkGray,
+        ),
+      ),
       child: WillPopScope(
         onWillPop: () async {
           await fnInvalidate(ref, HomeFatigueController.homeFatigueScoreProvider);
@@ -208,11 +221,6 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                     ],
                   ),
                   const SizedBox(height: 34,),
-                  /*GrayTextButton(
-                    disabled: (score/(width-60)*10).round() > 0 ? false : true,
-                    text: '완료',
-                  ),*/
-                  const SizedBox(height: 16,),
                 ],
               ),
             ),
