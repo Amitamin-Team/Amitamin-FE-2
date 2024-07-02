@@ -11,3 +11,6 @@ class RegisterSurveyCheckState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerSurveyCheckProvider = 
+    StateNotifierProvider<RegisterSurveyCheckState, String>((ref) => RegisterSurveyCheckState());

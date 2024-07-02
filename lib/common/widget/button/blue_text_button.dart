@@ -7,11 +7,17 @@ class BlueTextButton extends StatelessWidget {
     this.disabled = true,
     this.onPressed,
     required this.text,
+    this.disabledBackgroundColor = CustomColor.white,
+    this.disabledBorderColor = CustomColor.primaryBlue100,
+    this.disabledTextColor = CustomColor.primaryBlue100,
   }) : super(key: key);
 
   final String text;
   final bool disabled;
   final VoidCallback? onPressed;
+  final Color? disabledBackgroundColor;
+  final Color? disabledBorderColor;
+  final Color? disabledTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +26,10 @@ class BlueTextButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: disabled ? CustomColor.white : CustomColor.primaryBlue100,
-          side: const BorderSide(
+          backgroundColor: disabled ? disabledBackgroundColor : CustomColor.primaryBlue100,
+          side: BorderSide(
             width: 1,
-            color: CustomColor.primaryBlue100,
+            color: disabledBorderColor ?? CustomColor.primaryBlue100,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -35,7 +41,7 @@ class BlueTextButton extends StatelessWidget {
             fontFamily: CustomText.body4.fontFamily,
             fontWeight: CustomText.body4.fontWeight,
             fontSize: CustomText.body4.fontSize,
-            color: disabled ? CustomColor.primaryBlue100 : CustomColor.white,
+            color: disabled ? disabledTextColor : CustomColor.white,
           ),
         ),
       ),

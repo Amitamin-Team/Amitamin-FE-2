@@ -1,4 +1,5 @@
-import 'package:amitamin_frontend/controller/home_fatigue_controller.dart';
+import 'package:amitamin_frontend/controller/controller.dart';
+import 'package:amitamin_frontend/data/provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,10 +14,10 @@ class HomeFatigueScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeFatigueScreen> createState() => HomeFatigueScreenState();
 }
 
-class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
+class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> with HomeFatigueController {
   @override
   Widget build(BuildContext context) {
-    final homeFatigueScoreState = ref.watch(HomeFatigueController.homeFatigueScoreProvider);
+    final homeFatigueScoreState = ref.watch(homeFatigueScoreProvider);
 
     final sliderWidth = MediaQuery.of(context).size.width;
 
@@ -30,15 +31,28 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
         title: '피로도 체크하기',
         leadingDisable: false,
         leadingOnPressed: () async {
-          await fnInvalidate(ref, HomeFatigueController.homeFatigueScoreProvider);
+          await fnInvalidate(ref, homeFatigueScoreProvider);
           if (!context.mounted) return;
           context.pop();
         },
         actionDisable: true,
       ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: (const NavigationBarThemeData().height ?? 80) + 16),
+        child: BlueTextButton(
+          onPressed: () {
+            // TODO : 피로도 API 연동
+          },
+          disabled: score > 0 ? false : true,
+          text: '완료',
+          disabledBackgroundColor: CustomColor.lightGray,
+          disabledBorderColor: CustomColor.lightGray,
+          disabledTextColor: CustomColor.extraDarkGray,
+        ),
+      ),
       child: WillPopScope(
         onWillPop: () async {
-          await fnInvalidate(ref, HomeFatigueController.homeFatigueScoreProvider);
+          await fnInvalidate(ref, homeFatigueScoreProvider);
           if (!context.mounted) return false;
           context.pop();
           
@@ -85,21 +99,21 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              HomeFatigueController.fatigueScoreList[score].imgPath,
+                              fatigueScoreList[score].imgPath,
                               width: 60,
                               height: 60,
                             ),
                             const SizedBox(height: 8,),
                             Text(
                               // '${(fatigueScoreState/(sliderWidth-60)*10).round()}점',
-                              '${HomeFatigueController.fatigueScoreList[score].score}점',
+                              '${fatigueScoreList[score].score}점',
                               style: CustomText.headLine4,
                             ),
                             const SizedBox(height: 8,),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: Text(
-                                HomeFatigueController.fatigueScoreList[score].comment,
+                                fatigueScoreList[score].comment,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: CustomColor.gray,
@@ -172,7 +186,7 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                           top: 0,
                           child: GestureDetector(
                             onPanUpdate: (details) {
-                              ref.read(HomeFatigueController.homeFatigueScoreProvider.notifier)
+                              ref.read(homeFatigueScoreProvider.notifier)
                                  .set((details.delta.dx + homeFatigueScoreState)
                                  .clamp(0, sliderWidth-59));
                             },
@@ -208,11 +222,6 @@ class HomeFatigueScreenState extends ConsumerState<HomeFatigueScreen> {
                     ],
                   ),
                   const SizedBox(height: 34,),
-                  /*GrayTextButton(
-                    disabled: (score/(width-60)*10).round() > 0 ? false : true,
-                    text: '완료',
-                  ),*/
-                  const SizedBox(height: 16,),
                 ],
               ),
             ),

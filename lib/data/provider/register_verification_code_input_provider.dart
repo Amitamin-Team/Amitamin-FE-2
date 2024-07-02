@@ -11,3 +11,6 @@ class RegisterVerificationCodeInputState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerVerificationCodeInputProvider = 
+    StateNotifierProvider<RegisterVerificationCodeInputState, String>((ref) => RegisterVerificationCodeInputState());

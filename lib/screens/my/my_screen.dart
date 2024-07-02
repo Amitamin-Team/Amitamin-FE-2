@@ -14,7 +14,7 @@ class MyScreen extends ConsumerStatefulWidget {
   ConsumerState<MyScreen> createState() => MyScreenState();
 }
 
-class MyScreenState extends ConsumerState<MyScreen> {
+class MyScreenState extends ConsumerState<MyScreen> with MyController {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -180,7 +180,7 @@ class MyScreenState extends ConsumerState<MyScreen> {
                     context: context, 
                     middleText: "정말 로그아웃 하시겠습니까?", 
                     onConfirm: () async {
-                      await MyController.fnLoginOutExec(ref, context);
+                      await fnLoginOutExec(ref, context);
                     }
                   );
                 },

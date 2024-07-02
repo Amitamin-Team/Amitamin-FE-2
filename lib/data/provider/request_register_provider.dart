@@ -45,3 +45,6 @@ class RequestRegisterState extends StateNotifier<RequestRegisterModel> {
     );
   }
 }
+
+final requestRegisterProvider = 
+    StateNotifierProvider<RequestRegisterState, RequestRegisterModel>((ref) => RequestRegisterState());

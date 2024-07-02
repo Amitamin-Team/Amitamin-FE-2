@@ -12,3 +12,6 @@ class RegisterEmailInputResultState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerEmailInputResultProvider = 
+    StateNotifierProvider<RegisterEmailInputResultState, String>((ref) => RegisterEmailInputResultState());

@@ -12,3 +12,6 @@ class RegisterPasswordConfirmInputResultState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerPasswordConfirmInputResultProvider = 
+    StateNotifierProvider<RegisterPasswordConfirmInputResultState, String>((ref) => RegisterPasswordConfirmInputResultState());

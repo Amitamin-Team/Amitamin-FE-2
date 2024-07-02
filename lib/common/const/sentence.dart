@@ -6,7 +6,7 @@ class Sentence {
   static const String REGISTER_SUCCESS = "회원가입이 완료되었습니다.";
   static const String REGISER_FAILED = "회원가입에 실패했습니다.\n로그인 화면으로 이동합니다.";
 
-  static const String NICKNAME_INPUT_EMPTY_ERR = "닉네임을 입력헤주세요.";
+  static const String NICKNAME_INPUT_EMPTY_ERR = "닉네임을 입력해주세요.";
   static const String NICKNAME_INPUT_LENGTH_ERR = "닉네임은 최대 8글자까지 입력할 수 있어요.";
   static const String NICKNAME_INPUT_TRY_ERR = "닉네임 중복확인을 해주세요.";
   static const String NICKNAME_INPUT_DUPLICATE_ERR = "중복된 닉네임이 있어요.";

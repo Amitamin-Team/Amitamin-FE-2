@@ -19,3 +19,6 @@ class RegisterNicknameButtonState extends StateNotifier<bool> {
     }
   }
 }
+
+final registerNicknameButtonProvider = 
+    StateNotifierProvider<RegisterNicknameButtonState, bool>((ref) => RegisterNicknameButtonState());

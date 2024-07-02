@@ -12,3 +12,6 @@ class RegisterVerificationCodeInputResultState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerVerificationCodeInputResultProvider = 
+    StateNotifierProvider<RegisterVerificationCodeInputResultState, String>((ref) => RegisterVerificationCodeInputResultState());

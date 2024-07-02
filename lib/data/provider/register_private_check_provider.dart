@@ -11,3 +11,6 @@ class RegisterPrivateCheckState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerPrivateCheckProvider = 
+    StateNotifierProvider<RegisterPrivateCheckState, String>((ref) => RegisterPrivateCheckState());

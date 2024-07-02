@@ -31,3 +31,9 @@ class LoginAutoCheckState extends StateNotifier<bool> {
     return state;
   }
 }
+
+final loginAutoCheckProvider = StateNotifierProvider<LoginAutoCheckState, bool>((ref) {
+    final storage = ref.watch(secureStorageProvider);
+
+    return LoginAutoCheckState(storage: storage);
+  });

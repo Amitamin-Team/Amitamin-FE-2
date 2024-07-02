@@ -11,3 +11,6 @@ class RegisterSexButtonState extends StateNotifier<String> {
     return state;
   }
 }
+
+final registerSexButtonProvider = 
+    StateNotifierProvider<RegisterSexButtonState, String>((ref) => RegisterSexButtonState());

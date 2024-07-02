@@ -1,6 +1,4 @@
-import 'package:amitamin_frontend/screens/home/home_fatigue_screen.dart';
 import 'package:amitamin_frontend/screens/my/my_profile_screen.dart';
-import 'package:amitamin_frontend/screens/password_find_screen.dart';
 import 'package:amitamin_frontend/screens/screens.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,13 +32,7 @@ final router = GoRouter(
           path: '/home_screen',
           name: 'home_screen',
           builder: (context, state) => HomeScreen(),
-          routes: [
-            GoRoute(
-              path: 'home_fatigue_screen',
-              name: 'home_fatigue_screen',
-              builder: (context, state) => HomeFatigueScreen(),
-            )
-          ]
+          routes: [],
         ),
         GoRoute(
           path: '/analysis_screen',
@@ -79,6 +71,17 @@ final router = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '/home_fatigue_screen',
+      name: 'home_fatigue_screen',
+      builder: (context, state) => HomeFatigueScreen(),
+    ),
+    GoRoute(
+      path: '/home_select_survey_screen',
+      name: 'home_select_survey_screen',
+      builder: (context, state) => HomeSelectSurveyScreen(),
+      routes: [],
     ),
   ],
 );
