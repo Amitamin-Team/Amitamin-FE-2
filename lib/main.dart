@@ -1,4 +1,3 @@
-
 import 'package:amitamin_frontend/common/common.dart';
 import 'package:amitamin_frontend/route/router.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    )
-  );
+  runApp(const ProviderScope(
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,10 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 앱 세로 고정
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp, 
-      DeviceOrientation.portraitDown]);
-    
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
     return MaterialApp.router(
       routerConfig: router,
       localizationsDelegates: const [
@@ -59,6 +55,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      //폰트 크기 고정
+      builder: (context, child) {
+        return MediaQuery(
+          child: child!,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        );
+      },
     );
   }
 }
