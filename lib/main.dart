@@ -56,12 +56,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       //폰트 크기 고정
-      builder: (context, child) {
-        return MediaQuery(
-          child: child!,
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-        );
-      },
     );
   }
 }
